@@ -1,103 +1,94 @@
-module.exports = function( db, sequelize, DataTypes ) {
-  let ChoicesGuideResult = sequelize.define('choices_guide_result', {
+module.exports = (db, sequelize, DataTypes) => {
+	const ChoicesGuideResult = sequelize.define("choices_guide_result", {
+		userId: {
+			type: DataTypes.INTEGER,
+			allowNull: true,
+		},
 
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: true,
-    },
+		projectId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 0,
+		},
 
-    projectId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
+		widgetId: {
+			type: DataTypes.INTEGER,
+			allowNull: false,
+			defaultValue: 0,
+		},
 
-    widgetId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-      defaultValue: 0,
-    },
+		result: {
+			type: DataTypes.TEXT,
+			allowNull: false,
+			defaultValue: "{}",
+			get: function () {
+				let value = this.getDataValue("result");
+				try {
+					if (typeof value === "string") {
+						value = JSON.parse(value);
+					}
+				} catch (err) {}
+				return value;
+			},
+			set: function (value) {
+				try {
+					if (typeof value === "string") {
+						value = JSON.parse(value);
+					}
+				} catch (err) {}
 
-    result: {
-      type: DataTypes.TEXT,
-      allowNull: false,
-      defaultValue: '{}',
-      get: function() {
-        let value = this.getDataValue('result');
-        try {
-          if (typeof value == 'string') {
-            value = JSON.parse(value);
-          }
-        } catch (err) {}
-        return value;
-      },
-      set: function(value) {
+				let oldValue = this.getDataValue("result");
+				try {
+					if (typeof oldValue === "string") {
+						oldValue = JSON.parse(oldValue) || {};
+					}
+				} catch (err) {}
 
-        try {
-          if (typeof value == 'string') {
-            value = JSON.parse(value);
-          }
-        } catch (err) {}
+				oldValue = oldValue || {};
+				Object.keys(oldValue).forEach((key) => {
+					if (!value[key]) {
+						value[key] = oldValue[key];
+					}
+				});
 
-        let oldValue = this.getDataValue('result');
-        try {
-          if (typeof oldValue == 'string') {
-            oldValue = JSON.parse(oldValue) || {};
-          }
-        } catch (err) {}
+				this.setDataValue("result", JSON.stringify(value));
+			},
+		},
+	});
 
-        oldValue = oldValue || {};
-        Object.keys(oldValue).forEach((key) => {
-          if (!value[key]) {
-            value[key] = oldValue[key];
-          }
-        });
+	ChoicesGuideResult.scopes = function scopes() {
+		return {
+			defaultScope: {},
 
-        this.setDataValue('result', JSON.stringify(value));
+			forProjectId: (projectId) => ({
+				where: {
+					projectId: projectId,
+				},
+			}),
+			includeUser: {
+				include: [
+					{
+						model: db.User,
+						attributes: ["role", "displayName", "nickName", "name", "email"],
+					},
+				],
+			},
+		};
+	};
 
-      }
-    },
+	ChoicesGuideResult.associate = function (models) {
+		this.belongsTo(models.Widget);
+		this.belongsTo(models.User, { onDelete: "CASCADE" });
+	};
 
-  });
-
-  ChoicesGuideResult.scopes = function scopes() {
-
-    return {
-      defaultScope: {},
-
-      forProjectId: function (projectId) {
-        return {
-          where: {
-            projectId: projectId,
-          },
-        };
-      },
-      includeUser: {
-        include: [
-          {
-            model: db.User,
-            attributes: ['role', 'displayName', 'nickName', 'name', 'email'],
-          },
-        ],
-      },
-
-    };
-  };
-
-  ChoicesGuideResult.associate = function( models ) {
-    this.belongsTo(models.Widget);
-    this.belongsTo(models.User, { onDelete: 'CASCADE' });
-  };
-
-  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	// dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
 	ChoicesGuideResult.auth = ChoicesGuideResult.prototype.auth = {
-    listableBy: 'editor',
-    viewableBy: 'all',
-    createableBy: 'all',
-    updateableBy: ['editor', 'owner'],
-    deleteableBy: 'admin',
-  }
+		listableBy: "editor",
+		viewableBy: "all",
+		createableBy: "all",
+		updateableBy: ["editor", "owner"],
+		deleteableBy: "admin",
+	};
 
-  return ChoicesGuideResult;
-
+	return ChoicesGuideResult;
 };

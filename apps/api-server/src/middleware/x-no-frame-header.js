@@ -1,12 +1,11 @@
-const config = require('config');
-const db = require('../db');
+const config = require("config");
+const db = require("../db");
 
-module.exports = function( app ) {
-	app.use(function( req, res, next ) {
+module.exports = (app) => {
+	app.use((req, res, next) => {
 		res.set({
-			'X-Frame-Options': 'deny'
+			"X-Frame-Options": "deny",
 		});
 		next();
 	});
-
 };

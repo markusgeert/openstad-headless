@@ -1,4 +1,4 @@
-const { execSync, exec } = require('child_process');
+const { execSync, exec } = require('node:child_process');
 const getWidgetSettings = require('../src/routes/widget/widget-settings');
 const widgetDefinitions = getWidgetSettings();
 
@@ -7,7 +7,7 @@ const {
   getDependencyPackages,
   buildPackageByDirectory,
 } = require('./lib/build-package');
-const fs = require('fs');
+const fs = require('node:fs');
 const { hashElement } = require('folder-hash');
 
 async function buildAllPackages() {

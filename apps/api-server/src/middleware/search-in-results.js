@@ -1,53 +1,49 @@
-const config = require('config');
+const config = require("config");
 
-module.exports = function({ searchfields = ['title', 'summary', 'description'] }) {
+module.exports =
+	({ searchfields = ["title", "summary", "description"] }) =>
+	(req, res, next) => {
+		let search = req.query.search;
 
-  return function(req, res, next) {
+		// if no search query exists move on
+		if (!search) return next();
 
-    let search = req.query.search;
+		const list = req.results;
 
-    // if no search query exists move on
-    if (!search) return next();
+		// if results is not defined something weird happened
+		if (typeof list === "undefined")
+			return next("No results defined to search in");
 
-    let list = req.results;
+		const results = [];
 
-    // if results is not defined something weird happened
-    if (typeof list === 'undefined') return next('No results defined to search in');
+		if (!Array.isArray(search)) search = [search];
+		search.forEach((criterium) => {
+			const key = Object.keys(criterium)[0];
+			const value = criterium[key].toLowerCase(); // Converteer naar lowercase voor case-insensitieve vergelijking
 
-    let results = [];
+			let useSearchFields;
+			if (key === "text") {
+				useSearchFields = searchfields;
+			} else {
+				useSearchFields = searchfields.filter((field) => field === key);
+			}
 
-    if (!Array.isArray(search)) search = [search];
-    search.forEach((criterium) => {
+			const searchTerms = value.split(" ");
 
-      let key = Object.keys(criterium)[0];
-      let value = criterium[key].toLowerCase(); // Converteer naar lowercase voor case-insensitieve vergelijking
+			const searchResult = list.filter((item) => {
+				return searchTerms.every((term) => {
+					return useSearchFields.some((field) => {
+						return item[field]?.toLowerCase().includes(term);
+					});
+				});
+			});
 
-      let useSearchFields;
-      if (key === 'text') {
-        useSearchFields = searchfields;
-      } else {
-        useSearchFields = searchfields.filter(field => field === key);
-      }
+			results.push(...searchResult);
+		});
 
-      let searchTerms = value.split(' ');
+		const merged = Array.from(new Set(results));
 
-      let searchResult = list.filter(item => {
-        return searchTerms.every(term => {
-          return useSearchFields.some(field => {
-            return item[field] && item[field].toLowerCase().includes(term);
-          });
-        });
-      });
+		req.results = merged;
 
-      results.push(...searchResult);
-    });
-
-
-    let merged = Array.from(new Set(results));
-
-    req.results = merged;
-
-    return next();
-
-  }
-}
+		return next();
+	};

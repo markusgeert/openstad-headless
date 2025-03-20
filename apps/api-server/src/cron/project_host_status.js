@@ -6,8 +6,8 @@
  * for the kubernetes server
  * @type {[type]}
  */
-const log = require('debug')('app:cron');
-const checkHostStatus = require('../services/checkHostStatus')
+const log = require("debug")("app:cron");
+const checkHostStatus = require("../services/checkHostStatus");
 
 // if you want te debug, easiest is to run it here
 //checkHostStatus();
@@ -16,10 +16,10 @@ const checkHostStatus = require('../services/checkHostStatus')
 // -------
 // Check periodically if the IP address is set to
 module.exports = {
-  cronTime: '0 2 */6 * * *',
-  runOnInit: false,
-  onTick: async () => {
-    console.log('crons --- checking projects host status')
-    checkHostStatus();
-  }
+	cronTime: "0 2 */6 * * *",
+	runOnInit: false,
+	onTick: async () => {
+		console.log("crons --- checking projects host status");
+		checkHostStatus();
+	},
 };

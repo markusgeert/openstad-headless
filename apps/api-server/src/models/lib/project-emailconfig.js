@@ -1,20 +1,19 @@
-const apiConfig = require('config');
+const apiConfig = require("config");
 
 module.exports = {
-
-  anonymize: {
-    type: 'object',
-    subset: {
-      inactiveWarningEmail: {
-        type: 'object',
-        subset: {
-          subject: {
-            type: 'string',
-            default: 'We gaan je account verwijderen',
-          },
-          template: {
-            type: 'string',
-            default: `Beste {{DISPLAYNAME}},<br/>\
+	anonymize: {
+		type: "object",
+		subset: {
+			inactiveWarningEmail: {
+				type: "object",
+				subset: {
+					subject: {
+						type: "string",
+						default: "We gaan je account verwijderen",
+					},
+					template: {
+						type: "string",
+						default: `Beste {{DISPLAYNAME}},<br/>\
 <br/>\
 Je bent al een tijd niet actief geweest op de website <a href="{{URL}}">{{URL}}</a>. We willen niet onnodig je gegevens blijven bewaren, en gaan die daarom verwijderen.<br/>\
 <br/>\
@@ -24,45 +23,45 @@ Wil je dit liever niet? Dan hoef je alleen een keer in te loggen op de website o
 <br/>\
 <br/>\
 <em>Dit is een geautomatiseerde email.</em>`,
-          },
-          attachments: {
-            type: 'arrayOfStrings',
-            default: []
-          },
-        },
-      },
-    },
-  },
+					},
+					attachments: {
+						type: "arrayOfStrings",
+						default: [],
+					},
+				},
+			},
+		},
+	},
 
-  notifications: {
-    type: 'object',
-    subset: {
-      fromAddress: {
-        type: 'string', // todo: add type email/list of emails
-        default: apiConfig.mail.from,
-      },
-      projectmanagerAddress: {
-        type: 'string', // todo: add type email/list of emails
-        default: 'EMAIL@NOT.DEFINED',
-      },
-      projectadminAddress: {
-        type: 'string', // todo: add type email/list of emails
-        default: apiConfig.notifications.admin.emailAddress,
-      },
-      sendEndDateNotifications: {
-        type: 'object',
-        subset: {
-          XDaysBefore: {
-            type: 'int',
-            default: 7,
-          },
-          subject: {
-            type: 'string',
-            default: 'Sluitingsdatum project nadert',
-          },
-          template:  {
-            type: 'string',
-            default: `De website <a href="{{URL}}">{{URL}}</a> nadert de ingestelde sluitingsdatum. De sluitingsdatum is ingesteld op <strong>{{ENDDATE}}</strong>.<br/>\
+	notifications: {
+		type: "object",
+		subset: {
+			fromAddress: {
+				type: "string", // todo: add type email/list of emails
+				default: apiConfig.mail.from,
+			},
+			projectmanagerAddress: {
+				type: "string", // todo: add type email/list of emails
+				default: "EMAIL@NOT.DEFINED",
+			},
+			projectadminAddress: {
+				type: "string", // todo: add type email/list of emails
+				default: apiConfig.notifications.admin.emailAddress,
+			},
+			sendEndDateNotifications: {
+				type: "object",
+				subset: {
+					XDaysBefore: {
+						type: "int",
+						default: 7,
+					},
+					subject: {
+						type: "string",
+						default: "Sluitingsdatum project nadert",
+					},
+					template: {
+						type: "string",
+						default: `De website <a href="{{URL}}">{{URL}}</a> nadert de ingestelde sluitingsdatum. De sluitingsdatum is ingesteld op <strong>{{ENDDATE}}</strong>.<br/>\
 <br/>\
 <strong>Klopt dit nog? Het is belangrijk dat de sluitingsdatum goed is ingesteld.</strong> Daarmee wordt gezorgd dat gebruikers vanaf dat moment hun account kunnen verwijderen, zonder dat stemmen of likes ongeldig gemaakt worden. De sluitingsdatum wordt ook als referentie gebruikt om op een later moment alle gebruikersgegevens te anonimiseren.<br/>\
 <br/>\
@@ -73,93 +72,93 @@ Als de webmaster de website gesloten heeft is deze in principe nog wel te bezoek
 <br/>\
 <br/>\
 <em>Dit is een geautomatiseerde email.</em><br/>\
-`
-          },
-        },
-      },
-    },
-  },
+`,
+					},
+				},
+			},
+		},
+	},
 
-  resources: {
-    type: 'object',
-    subset: {
-      feedbackEmail: {
-        from: {
-          type: 'string', // todo: add type email/list of emails
-          default: 'EMAIL@NOT.DEFINED',
-        },
-        subject: {
-          type: 'string',
-          default: 'Bedankt voor je inzending',
-        },
-        inzendingPath: {
-          type: 'string',
-          default: "/PATH/TO/PLAN/[[resourceId]]",
-        },
-        template: {
-          type: 'string',
-          default: `NO TEMPLATE DEFINED`,
-        },
-        attachments: {
-          type: 'arrayOfStrings',
-          default: []
-        },
-      },
-      conceptEmail: {
-        from: {
-          type: 'string', // todo: add type email/list of emails
-          default: 'EMAIL@NOT.DEFINED',
-        },
-        subject: {
-          type: 'string',
-          default: undefined,
-        },
-        inzendingPath: {
-          type: 'string',
-          default: "/PATH/TO/PLAN/[[resourceId]]",
-        },
-        template: {
-          type: 'string',
-          default: `NO TEMPLATE DEFINED`,
-        },
-        attachments: {
-          type: 'arrayOfStrings',
-          default: []
-        },
-      },
-      conceptToPublishedEmail: {
-        from: {
-          type: 'string', // todo: add type email/list of emails
-          default: 'EMAIL@NOT.DEFINED',
-        },
-        subject: {
-          type: 'string',
-          default: undefined,
-        },
-        inzendingPath: {
-          type: 'string',
-          default: "/PATH/TO/PLAN/[[resourceId]]",
-        },
-        template: {
-          type: 'string',
-          default: `NO TEMPLATE DEFINED`,
-        },
-        attachments: {
-          type: 'arrayOfStrings',
-          default: []
-        },
-      },
-    },
-  },
+	resources: {
+		type: "object",
+		subset: {
+			feedbackEmail: {
+				from: {
+					type: "string", // todo: add type email/list of emails
+					default: "EMAIL@NOT.DEFINED",
+				},
+				subject: {
+					type: "string",
+					default: "Bedankt voor je inzending",
+				},
+				inzendingPath: {
+					type: "string",
+					default: "/PATH/TO/PLAN/[[resourceId]]",
+				},
+				template: {
+					type: "string",
+					default: "NO TEMPLATE DEFINED",
+				},
+				attachments: {
+					type: "arrayOfStrings",
+					default: [],
+				},
+			},
+			conceptEmail: {
+				from: {
+					type: "string", // todo: add type email/list of emails
+					default: "EMAIL@NOT.DEFINED",
+				},
+				subject: {
+					type: "string",
+					default: undefined,
+				},
+				inzendingPath: {
+					type: "string",
+					default: "/PATH/TO/PLAN/[[resourceId]]",
+				},
+				template: {
+					type: "string",
+					default: "NO TEMPLATE DEFINED",
+				},
+				attachments: {
+					type: "arrayOfStrings",
+					default: [],
+				},
+			},
+			conceptToPublishedEmail: {
+				from: {
+					type: "string", // todo: add type email/list of emails
+					default: "EMAIL@NOT.DEFINED",
+				},
+				subject: {
+					type: "string",
+					default: undefined,
+				},
+				inzendingPath: {
+					type: "string",
+					default: "/PATH/TO/PLAN/[[resourceId]]",
+				},
+				template: {
+					type: "string",
+					default: "NO TEMPLATE DEFINED",
+				},
+				attachments: {
+					type: "arrayOfStrings",
+					default: [],
+				},
+			},
+		},
+	},
 
-  styling: { // used by emails
-    type: 'object',
-    subset: {
-      logo: {
-        type: 'string',
-        default: '',
-      },
-    },
-  }
-
-}
+	styling: {
+		// used by emails
+		type: "object",
+		subset: {
+			logo: {
+				type: "string",
+				default: "",
+			},
+		},
+	},
+};

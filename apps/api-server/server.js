@@ -1,19 +1,19 @@
-require('dotenv').config();
-const config = require('config');
+require("dotenv").config();
+const config = require("config");
 
 // Env variable used by npm's `debug` package.
 process.env.DEBUG = config.logging;
 
 // Order is relevant.
-require('./config/promises');
-require('./config/moment');
-require('./config/debug');
+require("./config/promises");
+require("./config/moment");
+require("./config/debug");
 
 // Start HTTP server.
-const Server     = require('./src/Server');
-const Cron       = require('./src/cron-calendar');
+const Server = require("./src/Server");
+const Cron = require("./src/cron-calendar");
 
 Cron.start();
 
 Server.init();
-Server.start(config.get('express.port'));
+Server.start(config.get("express.port"));

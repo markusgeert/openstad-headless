@@ -1,4 +1,4 @@
-const fs = require('fs').promises;
+const fs = require('node:fs').promises;
 
 const removeProtocol = (url) => {
   return url ? url.replace('http://', '').replace('https://', '').replace(/\/$/, "") : '';
@@ -8,11 +8,11 @@ module.exports = async function seed(config, db) {
 
   try {
 
-    let allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost', ] : [];
-    let apiDomain = process.env.API_DOMAIN || removeProtocol(process.env.API_URL) || '';
+    const allowedDomains = process.env.NODE_ENV === 'development' ? ['localhost', ] : [];
+    const apiDomain = process.env.API_DOMAIN || removeProtocol(process.env.API_URL) || '';
     allowedDomains.push(apiDomain);
-    let apiDomainWithoutPortnumber = apiDomain.replace(/:\d+/, '');
-    if (apiDomain != apiDomainWithoutPortnumber) allowedDomains.push(apiDomainWithoutPortnumber);
+    const apiDomainWithoutPortnumber = apiDomain.replace(/:\d+/, '');
+    if (apiDomain !== apiDomainWithoutPortnumber) allowedDomains.push(apiDomainWithoutPortnumber);
 
     console.log('    add plannen insturen project');
     let project = await db.Project.create({
@@ -191,7 +191,7 @@ module.exports = async function seed(config, db) {
     });
 
     console.log('    10 resources');
-    let resource1 = await db.Resource.create({
+    const resource1 = await db.Resource.create({
       userId: 2,
       projectId: 2,
       title: 'Lorem ipsum dolor',
@@ -206,7 +206,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource2 = await db.Resource.create({
+    const resource2 = await db.Resource.create({
       userId: 2,
       projectId: 2,
       title: 'Etiam euismod odio',
@@ -221,7 +221,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource3 = await db.Resource.create({
+    const resource3 = await db.Resource.create({
       userId: 2,
       projectId: 2,
       title: 'Quisque et viverra',
@@ -236,7 +236,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource4 = await db.Resource.create({
+    const resource4 = await db.Resource.create({
       userId: 2,
       projectId: 2,
       title: 'Ut eu porttitor',
@@ -251,7 +251,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource5 = await db.Resource.create({
+    const resource5 = await db.Resource.create({
       userId: 2,
       projectId: 2,
       title: 'Pellentesque consectetur eros',
@@ -266,7 +266,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource6 = await db.Resource.create({
+    const resource6 = await db.Resource.create({
       userId: 2,
       projectId: 3,
       title: 'Vestibulum ante ipsum',
@@ -282,7 +282,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource7 = await db.Resource.create({
+    const resource7 = await db.Resource.create({
       userId: 2,
       projectId: 3,
       title: 'Nulla laoreet pretium',
@@ -298,7 +298,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource8 = await db.Resource.create({
+    const resource8 = await db.Resource.create({
       userId: 2,
       projectId: 3,
       title: 'Aliquam ut magna',
@@ -314,7 +314,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource9 = await db.Resource.create({
+    const resource9 = await db.Resource.create({
       userId: 2,
       projectId: 3,
       title: 'Etiam ultricies dui',
@@ -330,7 +330,7 @@ module.exports = async function seed(config, db) {
       publishDate: db.sequelize.fn('now'),
     });
 
-    let resource10 = await db.Resource.create({
+    const resource10 = await db.Resource.create({
       userId: 2,
       projectId: 3,
       title: 'Nullam dignissim tincidunt',
@@ -347,7 +347,7 @@ module.exports = async function seed(config, db) {
     });
 
     console.log('      belonging to one of three themes and areas');
-    let theme1 = await db.Tag.create({
+    const theme1 = await db.Tag.create({
       projectId: 2,
       name: 'Theme 1',
       type: 'theme',
@@ -359,7 +359,7 @@ module.exports = async function seed(config, db) {
       backgroundColor: '#FF9100'
     });
 
-    let theme2 = await db.Tag.create({
+    const theme2 = await db.Tag.create({
       projectId: 2,
       name: 'Theme 2',
       type: 'theme',
@@ -371,7 +371,7 @@ module.exports = async function seed(config, db) {
       backgroundColor: '#E50082'
     });
 
-    let theme3 = await db.Tag.create({
+    const theme3 = await db.Tag.create({
       projectId: 2,
       name: 'Theme 3',
       type: 'theme',
@@ -383,21 +383,21 @@ module.exports = async function seed(config, db) {
       backgroundColor: '#00A03C'
     });
 
-    let area1 = await db.Tag.create({
+    const area1 = await db.Tag.create({
       projectId: 2,
       name: 'Area 1',
       type: 'area',
       seqnr: 10,
     });
 
-    let area2 = await db.Tag.create({
+    const area2 = await db.Tag.create({
       projectId: 2,
       name: 'Area 2',
       type: 'area',
       seqnr: 20,
     });
 
-    let area3 = await db.Tag.create({
+    const area3 = await db.Tag.create({
       projectId: 2,
       name: 'Area 3',
       type: 'area',
@@ -416,21 +416,21 @@ module.exports = async function seed(config, db) {
     resource4.addTag(area1);
     resource5.addTag(area1);
 
-    let theme4 = await db.Tag.create({
+    const theme4 = await db.Tag.create({
       projectId: 3,
       name: 'Theme 1',
       type: 'theme',
       seqnr: 10,
     });
 
-    let theme5 = await db.Tag.create({
+    const theme5 = await db.Tag.create({
       projectId: 3,
       name: 'Theme 2',
       type: 'theme',
       seqnr: 20,
     });
 
-    let theme6 = await db.Tag.create({
+    const theme6 = await db.Tag.create({
       projectId: 3,
       name: 'Theme 3',
       type: 'theme',
@@ -444,7 +444,7 @@ module.exports = async function seed(config, db) {
     resource10.addTag(theme6);
 
     console.log('      belonging to a status');
-    let status1 = await db.Status.findOne({
+    const status1 = await db.Status.findOne({
       where: { projectId: 2, name: 'open' }
     })
     await status1.update({
@@ -457,7 +457,7 @@ module.exports = async function seed(config, db) {
       backgroundColor: '#008800'
     });
 
-    let status2 = await db.Status.create({
+    const status2 = await db.Status.create({
       projectId: 2,
       name: 'closed',
       seqnr: 100,
@@ -479,7 +479,7 @@ module.exports = async function seed(config, db) {
     resource5.addStatus(status1);
 
     
-    let status3 = await db.Status.findOne({
+    const status3 = await db.Status.findOne({
       where: { projectId: 3, name: 'open' }
     });
     await status3.update({

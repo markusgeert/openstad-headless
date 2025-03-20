@@ -1,178 +1,171 @@
-const sanitize = require('../util/sanitize');
-const config = require('config');
-const getExtraDataConfig = require('../lib/sequelize-authorization/lib/getExtraDataConfig');
-const userHasRole = require('../lib/sequelize-authorization/lib/hasRole');
-const seqnr = require('./lib/seqnr');
+const sanitize = require("../util/sanitize");
+const config = require("config");
+const getExtraDataConfig = require("../lib/sequelize-authorization/lib/getExtraDataConfig");
+const userHasRole = require("../lib/sequelize-authorization/lib/hasRole");
+const seqnr = require("./lib/seqnr");
 
-module.exports = function (db, sequelize, DataTypes) {
-  let Tag = sequelize.define(
-    'tag',
-    {
-      projectId: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+module.exports = (db, sequelize, DataTypes) => {
+	const Tag = sequelize.define(
+		"tag",
+		{
+			projectId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
 
-      name: {
-        type: DataTypes.STRING,
-        allowNull: false,
-        set: function (text) {
-          this.setDataValue('name', sanitize.title(text.trim()));
-        },
-      },
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+				set: function (text) {
+					this.setDataValue("name", sanitize.title(text.trim()));
+				},
+			},
 
-      type: {
-        type: DataTypes.STRING,
-        allowNull: true,
-        set: function (text) {
-          this.setDataValue(
-            'type',
-            text ? sanitize.safeTags(text.trim()) : null
-          );
-        },
-      },
+			type: {
+				type: DataTypes.STRING,
+				allowNull: true,
+				set: function (text) {
+					this.setDataValue(
+						"type",
+						text ? sanitize.safeTags(text.trim()) : null,
+					);
+				},
+			},
 
-      seqnr: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-        default: 10,
-      },
+			seqnr: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+				default: 10,
+			},
 
-      addToNewResources: {
-        type: DataTypes.BOOLEAN,
-        allowNull: false,
-        default: false,
-      },
-      
-      label: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
+			addToNewResources: {
+				type: DataTypes.BOOLEAN,
+				allowNull: false,
+				default: false,
+			},
 
-      color: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
+			label: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 
-      backgroundColor: {
-        type: DataTypes.STRING,
-        allowNull: true,
-      },
+			color: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 
-      mapIcon: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
+			backgroundColor: {
+				type: DataTypes.STRING,
+				allowNull: true,
+			},
 
-      listIcon: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
+			mapIcon: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
 
-		  extraData: getExtraDataConfig(DataTypes.JSON, 'tags'),
+			listIcon: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
 
-      useDifferentSubmitAddress: {
-        type: DataTypes.BOOLEAN,
-        allowNull: true,
-        default: false,
-      },
+			extraData: getExtraDataConfig(DataTypes.JSON, "tags"),
 
-      newSubmitAddress: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
+			useDifferentSubmitAddress: {
+				type: DataTypes.BOOLEAN,
+				allowNull: true,
+				default: false,
+			},
 
-      defaultResourceImage: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      },
+			newSubmitAddress: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
 
-      documentMapIconColor: {
-        type: DataTypes.TEXT,
-        allowNull: true,
-      }
+			defaultResourceImage: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
 
-	  }, {
+			documentMapIconColor: {
+				type: DataTypes.TEXT,
+				allowNull: true,
+			},
+		},
+		{
+			defaultScope: {
+				order: ["seqnr"],
+			},
 
-      defaultScope: {
-        order: ['seqnr'],
-      },
+			hooks: {
+				afterCreate: (instance, options) => {
+					seqnr.renumber({ model: db.Tag, where: { type: instance.type } });
+				},
 
-      hooks: {
-        afterCreate: function (instance, options) {
-          seqnr.renumber({ model: db.Tag, where: { type: instance.type } });
-        },
+				afterUpdate: (instance, options) => {
+					seqnr.renumber({ model: db.Tag, where: { type: instance.type } });
+				},
+			},
 
-        afterUpdate: function (instance, options) {
-          seqnr.renumber({ model: db.Tag, where: { type: instance.type } });
-        },
-      },
+			individualHooks: true,
+		},
+	);
 
-      individualHooks: true,
-    }
-  );
+	Tag.scopes = function scopes() {
+		return {
+			forProjectId: (projectId) => ({
+				where: {
+					projectId: projectId,
+				},
+			}),
 
-  Tag.scopes = function scopes() {
-    return {
-      forProjectId: function (projectId) {
-        return {
-          where: {
-            projectId: projectId,
-          },
-        };
-      },
+			includeProject: {
+				include: [
+					{
+						model: db.Project,
+					},
+				],
+			},
 
-      includeProject: {
-        include: [
-          {
-            model: db.Project,
-          },
-        ],
-      },
+			selectType: (type) => ({
+				where: {
+					type: type,
+				},
+			}),
 
-      selectType: function (type) {
-        return {
-          where: {
-            type: type,
-          },
-        };
-      },
+			onlyWithIds: (idList) => ({
+				where: {
+					id: idList,
+				},
+			}),
+		};
+	};
 
-      onlyWithIds: function (idList) {
-        return {
-          where: {
-            id: idList,
-          },
-        };
-      },
-    };
-  };
+	Tag.associate = function (models) {
+		this.belongsToMany(models.Resource, {
+			through: "resource_tags",
+			constraints: false,
+		});
 
-  Tag.associate = function (models) {
-    this.belongsToMany(models.Resource, {
-      through: 'resource_tags',
-      constraints: false,
-    });
+		this.belongsToMany(models.Comment, {
+			through: "comment_tags",
+			as: "comments",
+			foreignKey: "tagId",
+			otherKey: "commentId",
+			constraints: false,
+		});
 
-    this.belongsToMany(models.Comment, {
-      through: 'comment_tags',
-      as: 'comments',
-      foreignKey: 'tagId',
-      otherKey: 'commentId',
-      constraints: false,
-    });
+		this.belongsTo(models.Project, { onDelete: "CASCADE" });
+	};
 
-    this.belongsTo(models.Project, { onDelete: 'CASCADE' });
-  };
+	// dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
+	Tag.auth = Tag.prototype.auth = {
+		listableBy: "all",
+		viewableBy: "all",
+		createableBy: "moderator",
+		updateableBy: "moderator",
+		deleteableBy: "moderator",
+	};
 
-  // dit is hoe het momenteel werkt; ik denk niet dat dat de bedoeling is, maar ik volg nu
-  Tag.auth = Tag.prototype.auth = {
-    listableBy: 'all',
-    viewableBy: 'all',
-    createableBy: 'moderator',
-    updateableBy: 'moderator',
-    deleteableBy: 'moderator',
-  };
-
-  return Tag;
+	return Tag;
 };

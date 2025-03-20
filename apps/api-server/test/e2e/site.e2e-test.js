@@ -1,45 +1,43 @@
-const db = require('../../src/db');
-const supertest = require('supertest');
+const db = require("../../src/db");
+const supertest = require("supertest");
 const appServer = require("./../../src/Server");
 
-let server, request;
+let server;
+let request;
 
-describe('Site endpoints', () => {
+describe("Site endpoints", () => {
+	beforeAll(async (done) => {
+		appServer.init();
 
-    beforeAll(async done => {
-        appServer.init();
+		request = supertest(appServer.app);
+		server = await appServer.app.listen(9000);
 
-        request = supertest(appServer.app);
-        server = await appServer.app.listen(9000);
+		done();
+	});
 
-        done();
-    });
+	afterAll(async (done) => {
+		// Todo: fix open handles
+		await server.close();
+		await db.sequelize.close();
 
-    afterAll(async (done) => {
-        // Todo: fix open handles
-        await server.close();
-        await db.sequelize.close();
+		done();
+	});
 
-        done();
-    });
+	it("GET /api/site", async (done) => {
+		const response = await request.get("/api/site").expect(200);
 
-    it("GET /api/site", async (done) => {
+		expect(response.status).toBe(200);
+		expect(response.body[0].id).toEqual(1);
 
-        const response = await request.get("/api/site").expect(200);
-        
-        expect(response.status).toBe(200);
-        expect(response.body[0].id).toEqual(1);
+		done();
+	});
 
-        done()
-    });
+	it("GET /api/site/1", async (done) => {
+		const response = await request.get("/api/site/1").expect(200);
 
-    it("GET /api/site/1", async (done) => {
+		expect(response.status).toBe(200);
+		expect(response.body.name).toEqual("site-one");
 
-        const response = await request.get("/api/site/1").expect(200);
-
-        expect(response.status).toBe(200);
-        expect(response.body.name).toEqual('site-one');
-
-        done();
-    });
+		done();
+	});
 });

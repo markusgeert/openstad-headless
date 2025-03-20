@@ -1,5 +1,5 @@
 const nodemon = require('nodemon');
-const { execSync, exec } = require('child_process');
+const { execSync, exec } = require('node:child_process');
 
 const {
   buildPackage,
@@ -7,9 +7,9 @@ const {
   buildPackageByDirectory,
 } = require('./scripts/lib/build-package');
 const getHeadlessDependencyTree = require('./scripts/get-headless-dependency-tree');
-const { resolve } = require('path');
+const { resolve } = require('node:path');
 const { hashElement } = require('folder-hash');
-const fs = require('fs');
+const fs = require('node:fs');
 
 // Get directories based on current directory
 const currentDirectory = process.cwd();
@@ -33,7 +33,7 @@ nodemon({
     console.log(
       '[!!!] first start, building all packages... [npm run build-packages]'
     );
-    const output = execSync(`npm run build-packages`);
+    const output = execSync("npm run build-packages");
     console.log(output.toString());
   })
   .on('restart', async (changedFiles) => {

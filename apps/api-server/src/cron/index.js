@@ -15,11 +15,11 @@
 // `./src/Cron.js` uses `invokeDir` to include all cron job definitions
 // which ignores `index.js`.
 module.exports = {
-	cronTime: '* * * * * *',
-	onTick: function() {
+	cronTime: "* * * * * *",
+	onTick: function () {
 		this.stop();
 	},
-	onComplete: function() {
-		console.log('Job done');
-	}
-}
+	onComplete: () => {
+		console.log("Job done");
+	},
+};

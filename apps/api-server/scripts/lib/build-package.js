@@ -1,4 +1,4 @@
-const {execSync, exec} = require('child_process');
+const {execSync, exec} = require('node:child_process');
 const getHeadlessDependencyTree = require("../get-headless-dependency-tree");
 
 async function getDependencyPackages () {
@@ -20,7 +20,7 @@ function buildPackage (package) {
     return;
   }
   
-  let packagePath = widgetDefinitions[package].directory;
+  const packagePath = widgetDefinitions[package].directory;
   
   buildPackageByDirectory(packagePath);
   
@@ -29,8 +29,8 @@ function buildPackage (package) {
 function buildPackageByDirectory (directory) {
   console.log(`Building package in path: ${directory}`);
   
-  execSync(`npm i --prefix=packages/${directory}`, {cwd: `../../`});
-  execSync(`npm run build --if-present --prefix=packages/${directory}`, {cwd: `../../`});
+  execSync(`npm i --prefix=packages/${directory}`, {cwd: "../../"});
+  execSync(`npm run build --if-present --prefix=packages/${directory}`, {cwd: "../../"});
   
   console.log(`Done building package in path: ${directory}`)
 }

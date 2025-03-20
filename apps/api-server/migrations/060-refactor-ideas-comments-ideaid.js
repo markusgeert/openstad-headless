@@ -1,13 +1,13 @@
-let db = require('../src/db').sequelize;
+const db = require("../src/db").sequelize;
 
 module.exports = {
-  up: function() {
-    try {
-      return db.query(`
+	up: () => {
+		try {
+			return db.query(`
         ALTER TABLE comments CHANGE ideaId resourceId INT(11) NOT NULL DEFAULT '0'; 
 `);
-    } catch(e) {
-      return true;
-    }
-  }
-}
+		} catch (e) {
+			return true;
+		}
+	},
+};

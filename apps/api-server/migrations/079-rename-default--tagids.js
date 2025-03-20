@@ -1,35 +1,30 @@
-const { Sequelize } = require('sequelize');
-const db = require('../src/db');
+const { Sequelize } = require("sequelize");
+const db = require("../src/db");
 
 module.exports = {
-  async up ({ context: queryInterface }) {
+	async up({ context: queryInterface }) {
+		try {
+			const projects = await db.Project.findAll();
+			for (let project of projects) {
+				let defaultTagIds = project.config?.resources?.tags || [];
+				if (!Array.isArray(defaultTagIds)) defaultTagIds = [defaultTagIds];
 
-    try {
+				// rename
+				const updated = { resources: {} };
+				if (project.config?.resources.tags) updated.resources.tags = null;
+				updated.resources.defaultTagIds = defaultTagIds;
 
-      let projects = await db.Project.findAll();
-      for (let project of projects) {
+				project = await project.update({ config: updated });
+			}
+		} catch (err) {
+			console.log(err);
+			process.exit();
+		}
 
-        let defaultTagIds = project.config?.resources?.tags || [];
-        if (!Array.isArray(defaultTagIds)) defaultTagIds = [ defaultTagIds ];
+		await queryInterface.removeColumn("tags", "extraFunctionality");
+	},
 
-        // rename
-        let updated = { resources: {} };
-        if (project.config?.resources.tags) updated.resources.tags = null;
-        updated.resources.defaultTagIds = defaultTagIds;
-
-        project = await project.update({ config: updated })
-
-      }
-
-    } catch(err) {
-      console.log(err);
-      process.exit();
-    }
-
-    await queryInterface.removeColumn( 'tags', 'extraFunctionality' );
-  },
-
-  async down ({ context: queryInterface }) {
-    console.log('Sorry, status data down is not implemented');
-  }
+	async down({ context: queryInterface }) {
+		console.log("Sorry, status data down is not implemented");
+	},
 };
