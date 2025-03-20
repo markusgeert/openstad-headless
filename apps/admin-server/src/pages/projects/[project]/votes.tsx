@@ -9,6 +9,7 @@ import { Button } from '@/components/ui/button';
 import useUsers from "@/hooks/use-users";
 import { sortTable, searchTable } from '@/components/ui/sortTable';
 import * as XLSX from 'xlsx';
+import Link from 'next/link';
 
 export default function ProjectResources() {
   const router = useRouter();
@@ -134,10 +135,10 @@ export default function ProjectResources() {
                       {vote.createdAt}
                     </Paragraph>
                     <Paragraph className="hidden lg:flex truncate lg:col-span-1">
-                      <a href={`/projects/${project}/resources/${vote.resourceId}`} style={{ textDecoration: 'underline' }}>{vote.resourceId}</a>
+                      <Link href={`/projects/${project}/resources/${vote.resourceId}`} style={{ textDecoration: 'underline' }}>{vote.resourceId}</Link>
                     </Paragraph>
                     <Paragraph className="hidden lg:flex truncate lg:col-span-1">
-                      <a href={`/users/${btoa(currentUserKey)}`} style={{ textDecoration: 'underline' }}>{vote.userId}</a>
+                      <Link href={`/users/${btoa(currentUserKey)}`} style={{ textDecoration: 'underline' }}>{vote.userId}</Link>
                     </Paragraph>
                     <Paragraph className="hidden lg:flex truncate lg:col-span-1">
                       {vote.ip}

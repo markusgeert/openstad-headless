@@ -33,8 +33,6 @@ function DateCountdownBar({
   showHours = true,
   showMinutes = true,
 }: DateCountdownBarWidgetProps) {
-  const zone = 'Europe/Amsterdam';
-
   const [timeLeft, setTimeLeft] = useState<{
     days: number;
     hours: number;

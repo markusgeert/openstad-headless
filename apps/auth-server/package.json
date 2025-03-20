@@ -1,10 +1,31 @@
 {
-  "name": "@openstad-headless/auth-server",
+  "name": "auth-server",
   "version": "1.0.0",
   "author": "Tosh Koevoets",
   "description": "SSO authentication for openstad apps",
   "license": "MIT",
   "main": "app.js",
+  "scripts": {
+    "lint": "eslint *.js config db test",
+    "start": "node app.js",
+    "test": "npm run test:unit && npm run test:e2e",
+    "test-cert": "env TEST_CERTS=1 npm run test:unit",
+    "test:unit": "jest unit",
+    "test:e2e": "jest integration",
+    "test:watch": "npm run test -- --watch",
+    "predev": "./scripts/predev.sh",
+    "dev": "nodemon app.js",
+    "watch": "npm-run-all --parallel watch:*",
+    "watch:css": "nodemon -e less -w public/css -x npm run build:css",
+    "build:css": "lessc public/css/main.less > public/css/main.css",
+    "init-database": "node ./scripts/init-database.js",
+    "migrate-database": "node ./scripts/migrate-database.js",
+    "build": "npm run build:css"
+  },
+  "engines": {
+    "node": ">=6.7.0",
+    "npm": ">=3.10.0"
+  },
   "dependencies": {
     "@azure/identity": "^4.6.0",
     "bcrypt": "^5.0.1",
@@ -54,27 +75,6 @@
     "session-file-store": "^1.2.0",
     "umzug": "^3.2.1",
     "uuid": "^10.0.0"
-  },
-  "scripts": {
-    "lint": "eslint *.js config db test",
-    "start": "node app.js",
-    "test": "npm run test:unit && npm run test:e2e",
-    "test-cert": "env TEST_CERTS=1 npm run test:unit",
-    "test:unit": "jest unit",
-    "test:e2e": "jest integration",
-    "test:watch": "npm run test -- --watch",
-    "predev": "./scripts/predev.sh",
-    "dev": "nodemon app.js",
-    "watch": "npm-run-all --parallel watch:*",
-    "watch:css": "nodemon -e less -w public/css -x npm run build:css",
-    "build:css": "lessc public/css/main.less > public/css/main.css",
-    "init-database": "node ./scripts/init-database.js",
-    "migrate-database": "node ./scripts/migrate-database.js",
-    "build": "npm run build:css"
-  },
-  "engines": {
-    "node": ">=6.7.0",
-    "npm": ">=3.10.0"
   },
   "devDependencies": {
     "es6-promisify": "^5.0.x",

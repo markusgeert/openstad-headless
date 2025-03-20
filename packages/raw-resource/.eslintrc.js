@@ -1,4 +1,3 @@
-module.exports = {
-  root: true,
+export default {
   extends: ['custom/library'],
 };

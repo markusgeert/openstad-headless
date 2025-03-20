@@ -1091,7 +1091,7 @@ a {
 }
 a:hover,
 a:focus {
-  color: #0958bb;
+  color: #0b458d;
   text-decoration: none;
 }
 a:focus {
@@ -3349,7 +3349,7 @@ fieldset[disabled] .btn-danger.focus {
   background-color: #fff;
 }
 .btn-link {
-  color: #1d7cf4;
+  color: #1167d4;
   font-weight: normal;
   border-radius: 0;
 }
@@ -3370,7 +3370,7 @@ fieldset[disabled] .btn-link {
 }
 .btn-link:hover,
 .btn-link:focus {
-  color: #0958bb;
+  color: #0b458d;
   text-decoration: none;
   background-color: transparent;
 }
@@ -3950,7 +3950,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 .nav .open > a:hover,
 .nav .open > a:focus {
   background-color: #eeeeee;
-  border-color: #1d7cf4;
+  border-color: #1167d4;
 }
 .nav .nav-divider {
   height: 1px;
@@ -4667,7 +4667,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
   padding: 6px 12px;
   line-height: 1.57142857;
   text-decoration: none;
-  color: #1d7cf4;
+  color: #1167d4;
   background-color: #fff;
   border: 1px solid #ddd;
   margin-left: -1px;
@@ -4688,7 +4688,7 @@ fieldset[disabled] .navbar-inverse .btn-link:focus {
 .pagination > li > a:focus,
 .pagination > li > span:focus {
   z-index: 2;
-  color: #0958bb;
+  color: #0b458d;
   background-color: #eeeeee;
   border-color: #ddd;
 }
@@ -4886,7 +4886,7 @@ a.badge:focus {
 }
 .list-group-item.active > .badge,
 .nav-pills > .active > a > .badge {
-  color: #1d7cf4;
+  color: #1167d4;
   background-color: #fff;
 }
 .list-group-item > .badge {
@@ -4961,7 +4961,7 @@ a.badge:focus {
 a.thumbnail:hover,
 a.thumbnail:focus,
 a.thumbnail.active {
-  border-color: #1d7cf4;
+  border-color: #1167d4;
 }
 .thumbnail .caption {
   padding: 9px;
@@ -6756,21 +6756,21 @@ a:hover {
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: local('Roboto'), local('Roboto-Regular'), url(https://fonts.gstatic.com/s/roboto/v20/KFOmCnqEu92Fr1Me5Q.ttf) format('truetype');
+  src: local('Roboto'), local('Roboto-Regular'), url(https://openstad-cdn.nl/fonts/Roboto.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: local('Roboto Medium'), local('Roboto-Medium'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmEU9vAw.ttf) format('truetype');
+  src: local('Roboto Medium'), local('Roboto-Medium'), url(https://openstad-cdn.nl/fonts/Roboto-Medium.ttf) format('truetype');
 }
 @font-face {
   font-family: 'Roboto';
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: local('Roboto Bold'), local('Roboto-Bold'), url(https://fonts.gstatic.com/s/roboto/v20/KFOlCnqEu92Fr1MmWUlvAw.ttf) format('truetype');
+  src: local('Roboto Bold'), local('Roboto-Bold'), url(https://openstad-cdn.nl/fonts/Roboto-Bold.ttf) format('truetype');
 }
 body {
   font-family: 'Roboto', sans-serif;
@@ -7258,10 +7258,9 @@ header.amsterdam-header .header-side-container {
 }
 #navbar {
   box-sizing: border-box;
-  color: #434343;
   font-weight: 600;
   line-height: 1.125rem;
-  background-color: var(--nlds-navbar-background-color, var(--nlds-default-background-color));
+  background-color: #F3F3F3;
   border: none;
   margin-bottom: 40px;
 }
@@ -7542,8 +7541,7 @@ header.amsterdam-header .header-side-container {
   line-height: 1.2;
   padding-top: 15px;
 }
-#resource-form .form-group,
-#article-form .form-group {
+#resource-form .form-group {
   margin: 70px 0;
 }
 label.error {

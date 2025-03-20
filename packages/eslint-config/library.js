@@ -1,7 +1,3 @@
-const { resolve } = require('node:path');
-
-// const project = resolve(process.cwd(), 'tsconfig.json');
-
 module.exports = {
   extends: [
     '@vercel/style-guide/eslint/typescript',

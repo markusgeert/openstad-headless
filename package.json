@@ -4,11 +4,15 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "build": "turbo run build",
+    "dev": "turbo run dev",
+    "lint": "turbo run lint",
+    "check": "biome check .",
+    "fix": "biome check . --write",
     "create-docker-config": "node ./scripts/create-docker-config.js",
     "setup": "node ./scripts/setup-all.js",
     "start": "node ./scripts/start-all.js",
-    "init-databases": "node ./scripts/init-databases.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "init-databases": "node ./scripts/init-databases.js"
   },
   "repository": {
     "type": "git",
@@ -24,14 +28,11 @@
     "apps/*",
     "packages/*"
   ],
-  "private": true,
+  "packageManager": "npm@11.1.0",
   "devDependencies": {
-    "@trivago/prettier-plugin-sort-imports": "^4.3.0",
+    "@biomejs/biome": "1.9.4",
+    "dotenv": "^16.4.7",
     "mysql2": "^3.11.3",
-    "prettier": "3.0.3"
-  },
-  "dependencies": {
-    "react-leaflet": "^4.2.1",
-    "uuid": "^10.0.0"
+    "turbo": "^2.4.4"
   }
 }
