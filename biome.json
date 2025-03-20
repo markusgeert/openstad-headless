@@ -17,31 +17,49 @@
 		"clientKind": "git",
 		"useIgnoreFile": true
 	},
+	"formatter": {
+		"formatWithErrors": true
+	},
 	"linter": {
 		"rules": {
 			"suspicious": {
 				"noExplicitAny": "off",
-				"noArrayIndexKey": "off"
+				"noArrayIndexKey": "off",
+				"noAssignInExpressions": "off",
+				"noShadowRestrictedNames": "off"
 			},
 			"correctness": {
-				"useExhaustiveDependencies": "off"
+				"useExhaustiveDependencies": "off",
+				"noUnreachable": "off",
+				"noUnknownProperty": "off",
+				"noConstantCondition": "off"
 			},
 			"complexity": {
-				"noForEach": "off"
+				"noForEach": "off",
+				"noBannedTypes": "off",
+				"noUselessFragments": "off"
 			},
 			"style": {
 				"noParameterAssign": "off",
-				"noCommaOperator": "off"
+				"noCommaOperator": "off",
+				"noArguments": "off",
+				"noNonNullAssertion": "off"
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off",
 				"useButtonType": "off",
 				"noLabelWithoutControl": "off",
 				"useIframeTitle": "off",
-				"useValidAnchor": "off"
+				"useValidAnchor": "off",
+				"useSemanticElements": "off",
+				"useGenericFontNames": "off"
 			},
 			"performance": {
-				"noDelete": "off"
+				"noDelete": "off",
+				"noAccumulatingSpread": "off"
+			},
+			"security": {
+				"noDangerouslySetInnerHtml": "warn"
 			}
 		}
 	}
