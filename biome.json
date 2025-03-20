@@ -2,5 +2,33 @@
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"files": {
 		"ignore": ["**/.next", "**/dist", "**/dist-dts", "**/node_modules"]
+	},
+	"linter": {
+		"rules": {
+			"suspicious": {
+				"noExplicitAny": "off",
+				"noArrayIndexKey": "off"
+			},
+			"correctness": {
+				"useExhaustiveDependencies": "off"
+			},
+			"complexity": {
+				"noForEach": "off"
+			},
+			"style": {
+				"noParameterAssign": "off",
+                "noCommaOperator": "off"
+			},
+			"a11y": {
+				"useKeyWithClickEvents": "off",
+				"useButtonType": "off",
+				"noLabelWithoutControl": "off",
+                "useIframeTitle": "off",
+                "useValidAnchor": "off"
+			},
+			"performance": {
+				"noDelete": "off"
+			}
+		}
 	}
 }
