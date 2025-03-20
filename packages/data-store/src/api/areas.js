@@ -1,6 +1,6 @@
 export default {
-    fetch: async function () {
-        let url = `/api/area`;
-        return this.fetch(url);
-    },
-}
+	fetch: async function () {
+		const url = "/api/area";
+		return this.fetch(url);
+	},
+};

@@ -1,8 +1,7 @@
-import { LatLng } from 'leaflet';
+import type { LatLng } from "leaflet";
 
 export type AreaProps = {
-  area?: Array<LatLng>,
-  areas?: any,
-  areaPolygonStyle?: any,
+	area?: Array<LatLng>;
+	areas?: any;
+	areaPolygonStyle?: any;
 };
-

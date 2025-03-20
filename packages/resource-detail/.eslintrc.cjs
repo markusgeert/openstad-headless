@@ -1,4 +1,4 @@
 module.exports = {
-  root: true,
-  extends: ['custom/library'],
+	root: true,
+	extends: ["custom/library"],
 };

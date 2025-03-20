@@ -1,212 +1,237 @@
-import React from 'react';
 import {
-  IconButton,
-  Image,
-  Pill,
-  SecondaryButton,
-  Spacer,
-} from '@openstad-headless/ui/src';
-import './gridder-resource-detail.css';
+	IconButton,
+	Image,
+	Pill,
+	SecondaryButton,
+	Spacer,
+} from "@openstad-headless/ui/src";
+import React from "react";
+import "./gridder-resource-detail.css";
 
 import "@utrecht/component-library-css";
 import "@utrecht/design-tokens/dist/root.css";
 import {
-  Button,
-  ButtonGroup,
-  ButtonLink,
-  Heading,
-  Heading1,
-  Heading4,
-  Paragraph
+	type LikeWidgetProps,
+	Likes,
+} from "@openstad-headless/likes/src/likes";
+import type { BaseProps } from "@openstad-headless/types/base-props";
+import type { ProjectSettingProps } from "@openstad-headless/types/project-setting-props";
+import {
+	Button,
+	ButtonGroup,
+	ButtonLink,
+	Heading,
+	Heading1,
+	Heading4,
+	Paragraph,
 } from "@utrecht/component-library-react";
-import { Icon } from "../../ui/src/icon"
-import {Likes, LikeWidgetProps} from '@openstad-headless/likes/src/likes';
-import { BaseProps } from '@openstad-headless/types/base-props';
-import { ProjectSettingProps } from '@openstad-headless/types/project-setting-props';
-import {hasRole} from "../../lib";
+import { hasRole } from "../../lib";
+import { Icon } from "../../ui/src/icon";
 
-export type GridderResourceDetailProps =
-    BaseProps &
-    ProjectSettingProps &
-    {
-  resource: any;
-  onRemoveClick?: (resource: any) => void;
-  currentUser?: any;
-  displayDocuments?: boolean;
-  displayLikeButton?: boolean;
-  clickableImage?: boolean;
-  documentsTitle?: string;
-  documentsDesc?: string;
-  displayTags?: boolean;
-  displayBudget?: boolean;
-  likeWidget?: Omit<
-    LikeWidgetProps,
-    keyof BaseProps | keyof ProjectSettingProps | 'resourceId'
-  >;
-};
+export type GridderResourceDetailProps = BaseProps &
+	ProjectSettingProps & {
+		resource: any;
+		onRemoveClick?: (resource: any) => void;
+		currentUser?: any;
+		displayDocuments?: boolean;
+		displayLikeButton?: boolean;
+		clickableImage?: boolean;
+		documentsTitle?: string;
+		documentsDesc?: string;
+		displayTags?: boolean;
+		displayBudget?: boolean;
+		likeWidget?: Omit<
+			LikeWidgetProps,
+			keyof BaseProps | keyof ProjectSettingProps | "resourceId"
+		>;
+	};
 
 export const GridderResourceDetail = ({
-  resource,
-  onRemoveClick,
-  displayDocuments = false,
-  displayLikeButton = false,
-  documentsTitle = '',
-  documentsDesc = '',
-  clickableImage = false,
-  displayTags = true,
-  displayBudget = true,
-  currentUser,
-  ...props
+	resource,
+	onRemoveClick,
+	displayDocuments = false,
+	displayLikeButton = false,
+	documentsTitle = "",
+	documentsDesc = "",
+	clickableImage = false,
+	displayTags = true,
+	displayBudget = true,
+	currentUser,
+	...props
 }: GridderResourceDetailProps) => {
-  // When resource is correctly typed the we will not need :any
-  const theme = resource.tags?.filter((t: any) => t.type === 'theme')?.at(0);
-  const area = resource.tags?.filter((t: any) => t.type === 'area')?.at(0);
+	// When resource is correctly typed the we will not need :any
+	const theme = resource.tags?.filter((t: any) => t.type === "theme")?.at(0);
+	const area = resource.tags?.filter((t: any) => t.type === "area")?.at(0);
 
-  const resourceUserId = resource?.userId || null;
-  const canDelete = hasRole(currentUser, ['moderator', 'owner'], resourceUserId);
+	const resourceUserId = resource?.userId || null;
+	const canDelete = hasRole(
+		currentUser,
+		["moderator", "owner"],
+		resourceUserId,
+	);
 
-  type DocumentType = {
-    name?: string;
-    url?: string;
-  }
-  
-  let defaultImage = '';
+	type DocumentType = {
+		name?: string;
+		url?: string;
+	};
 
-  interface Tag {
-    name: string;
-    defaultResourceImage?: string;
-   }
+	let defaultImage = "";
 
-  if (Array.isArray(resource?.tags)) {
-    const sortedTags = resource.tags.sort((a: Tag, b: Tag) => a.name.localeCompare(b.name));
+	interface Tag {
+		name: string;
+		defaultResourceImage?: string;
+	}
 
-    const tagWithImage = sortedTags.find((tag: Tag) => tag.defaultResourceImage);
-    defaultImage = tagWithImage?.defaultResourceImage || '';
-  }
+	if (Array.isArray(resource?.tags)) {
+		const sortedTags = resource.tags.sort((a: Tag, b: Tag) =>
+			a.name.localeCompare(b.name),
+		);
 
-  const resourceImages = (Array.isArray(resource.images) && resource.images.length > 0) ? resource.images?.at(0)?.url : defaultImage;
-  const hasImages = !!resourceImages ? '' : 'resource-has-no-images';
+		const tagWithImage = sortedTags.find(
+			(tag: Tag) => tag.defaultResourceImage,
+		);
+		defaultImage = tagWithImage?.defaultResourceImage || "";
+	}
 
-  const renderImage = (image: string, clickableImage: boolean) => {
-    const imageComponent = (
-      <Image
-        src={image}
-        className="--aspectRatio-16-9"
-      />
-    );
+	const resourceImages =
+		Array.isArray(resource.images) && resource.images.length > 0
+			? resource.images?.at(0)?.url
+			: defaultImage;
+	const hasImages = resourceImages ? "" : "resource-has-no-images";
 
-    return clickableImage ? (
-      <a href={image} target="_blank" rel="noreferrer">
-        {imageComponent}
-      </a>
-    ) : (
-      imageComponent
-    )
-  }
+	const renderImage = (image: string, clickableImage: boolean) => {
+		const imageComponent = <Image src={image} className="--aspectRatio-16-9" />;
 
-  return (
-    <>
-      <div className="osc-gridder-resource-detail">
-        <section className={`osc-gridder-resource-detail-photo ${hasImages}`}>
-          {renderImage(resource.images?.at(0)?.url || defaultImage, clickableImage)}
+		return clickableImage ? (
+			<a href={image} target="_blank" rel="noreferrer">
+				{imageComponent}
+			</a>
+		) : (
+			imageComponent
+		);
+	};
 
-          <div className="osc-gridder-resource-detail-budget-theme-bar">
+	return (
+		<>
+			<div className="osc-gridder-resource-detail">
+				<section className={`osc-gridder-resource-detail-photo ${hasImages}`}>
+					{renderImage(
+						resource.images?.at(0)?.url || defaultImage,
+						clickableImage,
+					)}
 
-            {displayBudget && (
-              <>
-                <Heading4>Budget</Heading4>
-                <Paragraph>&euro; {resource.budget > 0 ? resource.budget.toLocaleString('nl-NL') : 0}</Paragraph>
-                <Spacer size={1} />
-              </>
-            )}
+					<div className="osc-gridder-resource-detail-budget-theme-bar">
+						{displayBudget && (
+							<>
+								<Heading4>Budget</Heading4>
+								<Paragraph>
+									&euro;{" "}
+									{resource.budget > 0
+										? resource.budget.toLocaleString("nl-NL")
+										: 0}
+								</Paragraph>
+								<Spacer size={1} />
+							</>
+						)}
 
-            {displayTags && (
-              <>
-                <Heading4>Tags</Heading4>
-                <Spacer size={.5} />
-                <div className="pill-grid">
-                      {(resource.tags as Array<{ type: string; name: string }>)
-                        ?.filter((t) => t.type !== 'status')
-                        ?.map((t) => <Pill text={t.name} />)}
-                </div>
-              </>
-            )}
+						{displayTags && (
+							<>
+								<Heading4>Tags</Heading4>
+								<Spacer size={0.5} />
+								<div className="pill-grid">
+									{(resource.tags as Array<{ type: string; name: string }>)
+										?.filter((t) => t.type !== "status")
+										?.map((t) => (
+											<Pill text={t.name} />
+										))}
+								</div>
+							</>
+						)}
+					</div>
+				</section>
 
-          </div>
-        </section>
+				<section className="osc-gridder-resource-detail-texts-and-actions-container">
+					<div>
+						<div>
+							<Heading1 dangerouslySetInnerHTML={{ __html: resource.title }} />
+							<Paragraph
+								className="strong"
+								dangerouslySetInnerHTML={{ __html: resource.summary }}
+							/>
+							<Paragraph
+								dangerouslySetInnerHTML={{ __html: resource.description }}
+							/>
+						</div>
+					</div>
 
-        <section className="osc-gridder-resource-detail-texts-and-actions-container">
-          <div>
-            <div>
-              <Heading1 dangerouslySetInnerHTML={{__html: resource.title}}></Heading1>
-              <Paragraph className="strong" dangerouslySetInnerHTML={{__html: resource.summary}}></Paragraph>
-              <Paragraph dangerouslySetInnerHTML={{__html: resource.description}}></Paragraph>
-            </div>
-          </div>
+					{!!displayDocuments &&
+						!!resource &&
+						Array.isArray(resource.documents) &&
+						resource.documents.length > 0 && (
+							<>
+								<Spacer size={2} />
+								<div className="document-download-container">
+									{!!documentsTitle && (
+										<Heading level={2} appearance="utrecht-heading-4">
+											{documentsTitle}
+										</Heading>
+									)}
+									{!!documentsDesc && <Paragraph>{documentsDesc}</Paragraph>}
+									<Spacer size={2} />
+									<ButtonGroup>
+										{resource.documents?.map(
+											(document: DocumentType, index: number) => (
+												<ButtonLink
+													appearance="primary-action-button"
+													className="osc counter-container"
+													download
+													href={document.url}
+													key={index}
+												>
+													<Icon icon="ri-download-2-fill" />
+													{document.name}
+												</ButtonLink>
+											),
+										)}
+									</ButtonGroup>
+								</div>
+							</>
+						)}
+					<Spacer size={2} />
+					<div className="osc-gridder-resource-detail-actions">
+						{displayLikeButton && (
+							<Likes
+								{...props}
+								title={props.likeWidget?.title}
+								yesLabel={props.likeWidget?.yesLabel}
+								noLabel={props.likeWidget?.noLabel}
+								displayDislike={props.likeWidget?.displayDislike}
+								hideCounters={props.likeWidget?.hideCounters}
+								variant={props.likeWidget?.variant}
+								showProgressBar={props.likeWidget?.showProgressBar}
+								progressBarDescription={
+									props.likeWidget?.progressBarDescription
+								}
+								resourceId={resource.id}
+							/>
+						)}
 
-          { (!!displayDocuments && !!resource && Array.isArray(resource.documents) && resource.documents.length > 0 ) && (
-            <>
-              <Spacer size={2} />
-              <div className="document-download-container">
-                {!!documentsTitle && (<Heading level={2} appearance="utrecht-heading-4">{documentsTitle}</Heading>)}
-                {!!documentsDesc && (<Paragraph>{documentsDesc}</Paragraph>)}
-                <Spacer size={2} />
-                <ButtonGroup>
-                  {resource.documents?.map((document: DocumentType, index: number) => (
-                    <ButtonLink
-                      appearance="primary-action-button"
-                      className="osc counter-container"
-                      download
-                      href={document.url}
-                      key={index}
-                    >
-                      <Icon
-                        icon="ri-download-2-fill"
-                      />
-                      {document.name}
-                    </ButtonLink>
-                  ))}
-                </ButtonGroup>
-              </div>
-            </>
-          )}
-          <Spacer size={2} />
-          <div className="osc-gridder-resource-detail-actions">
+						{canDelete && (
+							<Button
+								appearance="primary-action-button"
+								onClick={() => {
+									if (confirm("Deze actie verwijderd de resource"))
+										onRemoveClick?.(resource);
+								}}
+							>
+								Verwijder
+							</Button>
+						)}
+					</div>
+				</section>
+			</div>
 
-            { displayLikeButton && (
-              <Likes
-                {...props}
-                title={props.likeWidget?.title}
-                yesLabel={props.likeWidget?.yesLabel}
-                noLabel={props.likeWidget?.noLabel}
-                displayDislike={props.likeWidget?.displayDislike}
-                hideCounters={props.likeWidget?.hideCounters}
-                variant={props.likeWidget?.variant}
-                showProgressBar={props.likeWidget?.showProgressBar}
-                progressBarDescription={
-                  props.likeWidget?.progressBarDescription
-                }
-                resourceId={resource.id}
-              />
-            )}
-
-            {canDelete && (
-              <Button
-                appearance="primary-action-button"
-                onClick={() => {
-                  if (confirm("Deze actie verwijderd de resource"))
-                    onRemoveClick && onRemoveClick(resource);
-                }}
-              >
-                Verwijder
-              </Button>
-            )}
-
-          </div>
-        </section>
-      </div>
-
-      <Spacer size={2} />
-    </>
-  );
+			<Spacer size={2} />
+		</>
+	);
 };

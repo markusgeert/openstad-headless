@@ -1,19 +1,19 @@
 export default function useCommentsByProject(props) {
+	const projectId = props.projectId;
+	const sentiment = props.sentiment;
 
-  let self = this;
-  
-  const projectId = props.projectId;
-  const sentiment = props.sentiment;
-  
-  const { data, error, isLoading } = self.useSWR({ projectId, sentiment }, 'commentsByProject.fetch');
-  
-  let comments = data || [];
-  
-  if (error) {
-    let error = new Error(error);
-    let event = new window.CustomEvent('osc-error', { detail: error });
-    document.dispatchEvent(event);
-  }
-  
-  return {data:comments, error, isLoading}
+	const { data, error, isLoading } = this.useSWR(
+		{ projectId, sentiment },
+		"commentsByProject.fetch",
+	);
+
+	const comments = data || [];
+
+	if (error) {
+		const error = new Error(error);
+		const event = new window.CustomEvent("osc-error", { detail: error });
+		document.dispatchEvent(event);
+	}
+
+	return { data: comments, error, isLoading };
 }

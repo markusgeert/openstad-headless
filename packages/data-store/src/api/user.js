@@ -1,87 +1,82 @@
-import fetch from './fetch';
+import fetch from "./fetch";
 
 export default {
+	fetch: async function ({ projectId, userId }) {
+		const url = `/api/project/${projectId}/user/${userId}`;
+		const headers = {
+			"Content-Type": "application/json",
+		};
 
-  fetch: async function({ projectId, userId }) {
+		return this.fetch(url, { headers });
+	},
 
-    let url = `/api/project/${projectId}/user/${userId}`;
-    let headers = {
-      'Content-Type': 'application/json'
-    };
+	fetchMe: async function ({ projectId }) {
+		// console.log('FETCH ME');
 
-    return this.fetch(url, { headers });
+		const url = `/auth/project/${projectId}/me`;
+		const headers = {
+			"Content-Type": "application/json",
+		};
 
-  },
+		const json = await this.fetch(url, { headers });
 
-  fetchMe: async function({ projectId }) {
+		let openStadUser = json;
+		if (openStadUser?.id)
+			openStadUser = { ...openStadUser, jwt: self.currentUserJWT };
 
-    // console.log('FETCH ME');
-    
-    let url = `/auth/project/${projectId}/me`;
-    let headers = {
-      'Content-Type': 'application/json'
-    };
+		return openStadUser;
+	},
 
-    let json = await this.fetch(url, { headers });
+	connectUser: async function ({ projectId, cmsUser }) {
+		// console.log('CONNECT-USER');
 
-    let openStadUser = json;
-    if (openStadUser && openStadUser.id) openStadUser = { ...openStadUser, jwt: self.currentUserJWT };
+		const url = `/auth/project/${projectId}/connect-user?useAuth=oidc`;
+		const headers = {
+			"Content-Type": "application/json",
+		};
 
-    return openStadUser;
+		const data = {
+			access_token: cmsUser.access_token,
+			iss: `${cmsUser.iss}`,
+		};
 
-  },
+		const json = await this.fetch(url, {
+			headers,
+			method: "POST",
+			body: JSON.stringify(data),
+		});
 
-  connectUser: async function({ projectId, cmsUser }) {
+		return json.jwt;
+	},
 
-    // console.log('CONNECT-USER');
+	update: async function ({ projectId, user }) {
+		const url = `/api/project/${projectId}/user/${user.id}`;
+		const headers = {
+			"Content-Type": "application/json",
+		};
 
-    let url = `/auth/project/${projectId}/connect-user?useAuth=oidc`;
-    let headers = {
-      'Content-Type': 'application/json'
-    };
+		const data = {
+			postcode: user.postalCode,
+			name: user.name,
+			fullName: user.name,
+			nickName: user.nickName,
+			address: user.address,
+			city: user.city,
+		};
 
-    let data = {
-      access_token: cmsUser.access_token,
-      iss: `${cmsUser.iss}`,
-    }
+		const json = await this.fetch(url, {
+			headers,
+			method: "PUT",
+			body: JSON.stringify(data),
+		});
 
-    let json = await this.fetch(url, {
-      headers,
-      method: 'POST',
-      body: JSON.stringify(data)
-    })
-      
-    return json.jwt;
+		return json;
+	},
 
-  },
-
-  update: async function ({ projectId, user }) {
-    let url = `/api/project/${projectId}/user/${user.id}`;
-    let headers = {
-      'Content-Type': 'application/json'
-    };
-
-    let data = {
-      postcode: user.postalCode,
-      name: user.name,
-      fullName: user.name,
-      nickName: user.nickName,
-      address: user.address,
-      city: user.city,
-    }
-
-    let json = await this.fetch(url, {
-      headers,
-      method: 'PUT',
-      body: JSON.stringify(data)
-    })
-
-    return json;
-  },
-  
-  logout: function({ url }) {
-    url = url || `${this.apiUrl}/auth/project/${this.projectId}/logout?useAuth=oidc`;
-    document.location.href = url;
-  },
-
-}
+	logout: function ({ url }) {
+		url =
+			url ||
+			`${this.apiUrl}/auth/project/${this.projectId}/logout?useAuth=oidc`;
+		document.location.href = url;
+	},
+};

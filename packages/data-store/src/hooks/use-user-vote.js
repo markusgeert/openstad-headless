@@ -1,26 +1,29 @@
-import { useState } from 'react';
+import { useState } from "react";
 
 export default function useUserVote(props) {
+	const projectId = props.projectId;
+	const type = props.type;
 
-  let self = this;
+	const { data, error, isLoading } = this.useSWR(
+		{ type: "user-vote", projectId: this.projectId },
+		"userVote.fetch",
+	);
 
-  const projectId = props.projectId;
-  const type = props.type;
+	// add functionality
+	const userVote = data || {};
+	userVote.submitVote = (vote) =>
+		this.mutate(
+			{ type: "user-vote", projectId: this.projectId },
+			"userVote.submitVote",
+			vote,
+			{ action: "update" },
+		);
 
-  const { data, error, isLoading } = self.useSWR({ type: 'user-vote', projectId: self.projectId }, 'userVote.fetch');
+	if (error) {
+		const error = new Error(error);
+		const event = new window.CustomEvent("osc-error", { detail: error });
+		document.dispatchEvent(event);
+	}
 
-  // add functionality
-  let userVote = data || {};
-  userVote.submitVote = function(vote) {
-    return self.mutate({ type: 'user-vote', projectId: self.projectId }, 'userVote.submitVote', vote, { action: 'update' });
-  }
-
-  if (error) {
-    let error = new Error(error);
-	  let event = new window.CustomEvent('osc-error', { detail: error });
-	  document.dispatchEvent(event);
-  }
-
-  return {data:userVote, error, isLoading};
+	return { data: userVote, error, isLoading };
 }
-

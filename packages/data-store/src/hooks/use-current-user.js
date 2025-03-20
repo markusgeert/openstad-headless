@@ -1,110 +1,108 @@
-import { SessionStorage } from '../../../lib/session-storage';
-import useSWR from 'swr';
+import useSWR from "swr";
+import { SessionStorage } from "../../../lib/session-storage";
 
 export default function useCurrentUser(props) {
-  let self = this;
+	const self = this;
 
-  const projectId = props.projectId;
+	const projectId = props.projectId;
 
-  const { data, error, isLoading } = useSWR(
-    { type: 'current-user', projectId: self.projectId },
-    getCurrentUser
-  );
+	const { data, error, isLoading } = useSWR(
+		{ type: "current-user", projectId: self.projectId },
+		getCurrentUser,
+	);
 
-  async function getCurrentUser() {
-    // console.log('GETCURRENTUSER', self.currentUser);
-    if (self.currentUser && self.currentUser.id) {
-      // just once TODO: ik denk dat het jkan met useSWRmutaion,: als ik het goedlees update die alleen met de hand
-      return self.currentUser;
-    }
+	async function getCurrentUser() {
+		// console.log('GETCURRENTUSER', self.currentUser);
+		if (self.currentUser?.id) {
+			// just once TODO: ik denk dat het jkan met useSWRmutaion,: als ik het goedlees update die alleen met de hand
+			return self.currentUser;
+		}
 
-    // get user from props
-    let initialUser = {};
-    try {
-      initialUser = globalOpenStadUser || props.openStadUser || {};
-    } catch(err) {}
+		// get user from props
+		let initialUser = {};
+		try {
+			initialUser = globalOpenStadUser || props.openStadUser || {};
+		} catch (err) {}
 
-    if (initialUser.id && initialUser.projectId == self.projectId) {
-      return initialUser;
-    }
+		if (initialUser.id && initialUser.projectId === self.projectId) {
+			return initialUser;
+		}
 
-    const session = new SessionStorage(props);
+		const session = new SessionStorage(props);
 
-    // jwt in url: use and remove from url
-    const params = new URLSearchParams(window.location.search);
-    let jwt;
-    if (params.has('openstadlogintoken')) {
-      jwt = params.get('openstadlogintoken');
-      session.set('openStadUser', { jwt });
-      let url = window.location.href;
-      url = url.replace(new RegExp(`[?&]openstadlogintoken=${jwt}`), '');
-      history.replaceState(null, '', url);
-    }
+		// jwt in url: use and remove from url
+		const params = new URLSearchParams(window.location.search);
+		let jwt;
+		if (params.has("openstadlogintoken")) {
+			jwt = params.get("openstadlogintoken");
+			session.set("openStadUser", { jwt });
+			let url = window.location.href;
+			url = url.replace(new RegExp(`[?&]openstadlogintoken=${jwt}`), "");
+			history.replaceState(null, "", url);
+		}
 
-    let cmsUser = {};
-    try {
-      cmsUser = globalCmsUser || props.cmsUser || {};
-    } catch(err) {}
+		let cmsUser = {};
+		try {
+			cmsUser = globalCmsUser || props.cmsUser || {};
+		} catch (err) {}
 
-    // get cmsUser from session data - this is a fix for badly written cms logouts
-    let sessionCmsUser = session.get('cmsUser') || {};
-    if (sessionCmsUser && cmsUser) {
-      // compare with current cmsUser
-      if (sessionCmsUser.access_token != cmsUser.access_token) {
-        // delete exising session cache
-        session.remove('cmsUser');
-        session.remove('openStadUser');
-      }
-    }
-    session.set('cmsUser', cmsUser);
+		// get cmsUser from session data - this is a fix for badly written cms logouts
+		const sessionCmsUser = session.get("cmsUser") || {};
+		if (sessionCmsUser && cmsUser) {
+			// compare with current cmsUser
+			if (sessionCmsUser.access_token !== cmsUser.access_token) {
+				// delete exising session cache
+				session.remove("cmsUser");
+				session.remove("openStadUser");
+			}
+		}
+		session.set("cmsUser", cmsUser);
 
-    // get openStad user from session data
-    let sessionUser = session.get('openStadUser') || {};
+		// get openStad user from session data
+		const sessionUser = session.get("openStadUser") || {};
 
-    // or use existing jwt
-    jwt = jwt || initialUser.jwt || sessionUser.jwt;
+		// or use existing jwt
+		jwt = jwt || initialUser.jwt || sessionUser.jwt;
 
-    // or get jwt for cmsUser
-    if (!jwt && cmsUser && cmsUser.access_token && cmsUser.iss) {
-      jwt = await self.api.user.connectUser({
-        projectId: self.projectId,
-        cmsUser,
-      });
-    }
+		// or get jwt for cmsUser
+		if (!jwt && cmsUser && cmsUser.access_token && cmsUser.iss) {
+			jwt = await self.api.user.connectUser({
+				projectId: self.projectId,
+				cmsUser,
+			});
+		}
 
-    // fetch me for this jwt
-    if (jwt) {
+		// fetch me for this jwt
+		if (jwt) {
+			self.api.currentUserJWT = jwt; // use current user in subsequent requests
 
-      self.api.currentUserJWT = jwt; // use current user in subsequent requests
+			// refresh already fetched data, now with the current user
+			self.refresh();
 
-      // refresh already fetched data, now with the current user
-      self.refresh();
+			// TODO: delete jwt on error
+			const openStadUser = await self.api.user.fetchMe({
+				projectId: self.projectId,
+			});
 
-      // TODO: delete jwt on error
-      let openStadUser = await self.api.user.fetchMe({
-        projectId: self.projectId,
-      });
+			session.set("openStadUser", { ...openStadUser, jwt });
+			return openStadUser;
+		}
+		return {};
+	}
 
-      session.set('openStadUser', { ...openStadUser, jwt });
-      return openStadUser;
-    } else {
-      return {};
-    }
-  }
+	// add functionality
+	if (data) {
+		data.logout = (params) => {
+			const session = new SessionStorage(props);
+			session.destroy();
+			self.api.user.logout(params);
+		};
+	}
 
-  // add functionality
-  if (data) {
-    data.logout = function(params) {
-      const session = new SessionStorage(props);
-      session.destroy();
-      self.api.user.logout(params);
-    }
-  }
-
-  return {
-    data,
-    setUser: () => console.log('setUser not (yet) implemented'),
-    error,
-    isLoading,
-  };
+	return {
+		data,
+		setUser: () => console.log("setUser not (yet) implemented"),
+		error,
+		isLoading,
+	};
 }

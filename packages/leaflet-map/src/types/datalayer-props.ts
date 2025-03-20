@@ -1,3 +1,3 @@
 export type DatalayerProps = {
-    datalayer?: string,
+	datalayer?: string;
 };

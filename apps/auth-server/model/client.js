@@ -1,173 +1,166 @@
-'use strict';
-
-const { DataTypes } = require('sequelize');
-const configAuthTypes = require('../config/auth.js').types;
+const { DataTypes } = require("sequelize");
+const configAuthTypes = require("../config/auth.js").types;
 
 module.exports = (db, sequelize, Sequelize) => {
+	const Client = sequelize.define(
+		"client",
+		{
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 
-  let Client = sequelize.define('client', {
+			redirectUrl: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+			description: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 
-    redirectUrl: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+			clientId: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 
-    description: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+			clientSecret: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 
-    clientId: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+			authTypes: {
+				type: DataTypes.JSON,
+				defaultValue: [],
+				allowNull: false,
+				get: function () {
+					let value = this.getDataValue("authTypes") || [];
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					return value;
+				},
+				set: function (value) {
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					value = value || [];
+					this.setDataValue("authTypes", value);
+				},
+			},
 
-    clientSecret: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+			exposedUserFields: {
+				type: DataTypes.JSON,
+				defaultValue: [],
+				get: function () {
+					let value = this.getDataValue("exposedUserFields");
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					return value;
+				},
+				set: function (value) {
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					value = value || [];
+					this.setDataValue("exposedUserFields", value);
+				},
+			},
 
-    authTypes: {
-      type: DataTypes.JSON,
-      defaultValue: [],
-      allowNull: false,
-      get: function () {
-        let value = this.getDataValue('authTypes') || [];
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        return value;
-      },
-      set: function (value) {
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        value = value || [];
-        this.setDataValue('authTypes', value);
-      },
-    },
+			requiredUserFields: {
+				type: DataTypes.JSON,
+				defaultValue: [],
+				get: function () {
+					let value = this.getDataValue("requiredUserFields");
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					return value;
+				},
+				set: function (value) {
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					value = value || [];
+					this.setDataValue("requiredUserFields", value);
+				},
+			},
 
-    exposedUserFields: {
-      type: DataTypes.JSON,
-      defaultValue: [],
-      get: function () {
-        let value = this.getDataValue('exposedUserFields');
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        return value;
-      },
-      set: function (value) {
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        value = value || [];
-        this.setDataValue('exposedUserFields', value);
-      },
-    },
+			allowedDomains: {
+				type: DataTypes.JSON,
+				defaultValue: [],
+				get: function () {
+					let value = this.getDataValue("allowedDomains");
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					return value;
+				},
+				set: function (value) {
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					value = value || [];
+					this.setDataValue("allowedDomains", value);
+				},
+			},
 
-    requiredUserFields: {
-      type: DataTypes.JSON,
-      defaultValue: [],
-      get: function () {
-        let value = this.getDataValue('requiredUserFields');
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        return value;
-      },
-      set: function (value) {
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        value = value || [];
-        this.setDataValue('requiredUserFields', value);
-      },
-    },
+			config: {
+				type: DataTypes.JSON,
+				defaultValue: {},
+				get: function () {
+					let value = this.getDataValue("config");
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					return value;
+				},
+				set: function (value) {
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					value = value || {};
+					this.setDataValue("config", value);
+				},
+			},
 
-    allowedDomains: {
-      type: DataTypes.JSON,
-      defaultValue: [],
-      get: function () {
-        let value = this.getDataValue('allowedDomains');
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        return value;
-      },
-      set: function (value) {
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        value = value || [];
-        this.setDataValue('allowedDomains', value);
-      },
-    },
+			twoFactorRoles: {
+				type: DataTypes.JSON,
+				defaultValue: [],
+				get: function () {
+					let value = this.getDataValue("twoFactorRoles");
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					return value;
+				},
+				set: function (value) {
+					try {
+						value = JSON.parse(value);
+					} catch (err) {}
+					value = value || [];
+					this.setDataValue("twoFactorRoles", value);
+				},
+			},
+		},
+		{
+			tableName: "clients",
+		},
+	);
 
-    config: {
-      type: DataTypes.JSON,
-      defaultValue: {},
-      get: function () {
-        let value = this.getDataValue('config');
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        return value;
-      },
-      set: function (value) {
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        value = value || {};
-        this.setDataValue('config', value);
-      },
-    },
+	Client.associate = function (models) {
+		this.hasMany(db.UserRole);
+	};
 
-    twoFactorRoles: {
-      type: DataTypes.JSON,
-      defaultValue: [],
-      get: function () {
-        let value = this.getDataValue('twoFactorRoles');
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        return value;
-      },
-      set: function (value) {
-        try {
-          value = JSON.parse(value)
-        } catch(err) {}
-        value = value || [];
-        this.setDataValue('twoFactorRoles', value);
-      },
-    },
+	Client.scopes = function scopes() {
+		return {
+			includeUserRoles: () => ({
+				include: db.UserRole,
+			}),
+		};
+	};
 
-  }, {
-    
-    tableName: 'clients',
-
-  });
-
-  Client.associate = function (models) {
-    this.hasMany(db.UserRole);
-  }
-
-  Client.scopes = function scopes() {
-    return {
-      includeUserRoles: function() {
-        return {
-          include: db.UserRole,
-        };
-      }
-    }
-  }
-
-  return Client;
-
-}
-
+	return Client;
+};

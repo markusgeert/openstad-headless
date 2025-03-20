@@ -4,19 +4,25 @@
 		"//#check": {
 			"inputs": [
 				"**/*.ts",
+				"**/*.tsx",
 				"!**/node_modules",
 				"!**/dist",
 				"!**/dist-dts",
-				"!**/.next"
+				"!**/.next",
+				"!**/.turbo",
+				"!**/apos-build"
 			]
 		},
 		"//#fix": {
 			"inputs": [
 				"**/*.ts",
+				"**/*.tsx",
 				"!**/node_modules",
 				"!**/dist",
 				"!**/dist-dts",
-				"!**/.next"
+				"!**/.next",
+				"!**/.turbo",
+				"!**/apos-build"
 			]
 		},
 		"build": {

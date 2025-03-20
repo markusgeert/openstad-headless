@@ -1,26 +1,23 @@
-'use strict';
-
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 
 module.exports = (db, sequelize, Sequelize) => {
+	const ExternalCsrfToken = sequelize.define(
+		"external_csrf_token",
+		{
+			token: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 
-  let ExternalCsrfToken = sequelize.define('external_csrf_token', {
+			used: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+		},
+		{
+			tableName: "external_csrf_tokens",
+		},
+	);
 
-    token: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-    used: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
-  }, {
-    tableName: 'external_csrf_tokens',
-  });
-
-  return ExternalCsrfToken;
-
-}
-
+	return ExternalCsrfToken;
+};

@@ -1,42 +1,36 @@
-import { useMap } from 'react-leaflet/hooks';
+import { useMap } from "react-leaflet/hooks";
 
 declare global {
-    interface Window { oscMap: any; }
+	interface Window {
+		oscMap: any;
+	}
 }
 
 export function useMapRef(mapId: string) {
+	if (!window.oscMap) window.oscMap = {};
+	if (!window.oscMap[mapId]) window.oscMap[mapId] = { map: null };
 
-  if (!window.oscMap) window.oscMap = {};
-  if (!window.oscMap[mapId]) window.oscMap[mapId] = { map: null };
+	const val = window.oscMap[mapId];
 
-  let val = window.oscMap[mapId];
+	function setMapRef(ref: object) {
+		if (val.map) return;
+		window.oscMap[mapId].map = ref;
+	}
 
-  function setMapRef(ref: object) {
-    if (val.map) return;
-    window.oscMap[mapId].map = ref
-  }
-  
-  return [ val.map, setMapRef ];
-
+	return [val.map, setMapRef];
 }
 
 type MapConsumerProps = {
-  mapId: string,
+	mapId: string;
 };
 
+export function MapConsumer({ mapId }: MapConsumerProps) {
+	const map = useMap();
 
-export function MapConsumer({
-  mapId,
-}: MapConsumerProps) {
+	const [, setMapRef] = useMapRef(mapId);
+	setMapRef(map);
 
-  const map = useMap();
-
-  let [ , setMapRef ] = useMapRef(mapId);
-  setMapRef(map);
-
-  return null;
-
+	return null;
 }
 
 export default MapConsumer;
-

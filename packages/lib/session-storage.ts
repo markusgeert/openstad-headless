@@ -1,66 +1,65 @@
 export default class SessionStorage {
-  private projectId?: string;
+	private projectId?: string;
 
-  constructor(props: { projectId?: string }) {
-    this.projectId = props.projectId;
-  }
+	constructor(props: { projectId?: string }) {
+		this.projectId = props.projectId;
+	}
 
-  private getData() {
-    const storedData = window.sessionStorage.getItem('openstad');
-    let data: { [key: string]: any } = {};
+	private getData() {
+		const storedData = window.sessionStorage.getItem("openstad");
+		let data: { [key: string]: any } = {};
 
-    try {
-      if (storedData) {
-        data = JSON.parse(storedData);
-      }
-    } catch (err) {
-      data = {};
-    }
+		try {
+			if (storedData) {
+				data = JSON.parse(storedData);
+			}
+		} catch (err) {
+			data = {};
+		}
 
-    let target = data;
-    if (this.projectId) {
-      data[this.projectId] = data[this.projectId] || {};
-      target = data[this.projectId] || {};
-    }
+		let target = data;
+		if (this.projectId) {
+			data[this.projectId] = data[this.projectId] || {};
+			target = data[this.projectId] || {};
+		}
 
-    return { data, target };
-  }
+		return { data, target };
+	}
 
-  get(name: string) {
-    let { data, target } = this.getData();
+	get(name: string) {
+		const { data, target } = this.getData();
 
-    let value = target[name];
-    try {
-      value = JSON.parse(value);
-    } catch (err) {}
+		let value = target[name];
+		try {
+			value = JSON.parse(value);
+		} catch (err) {}
 
-    return value;
-  }
+		return value;
+	}
 
-  set(name: string, value: any) {
-    if (typeof name != 'string') return;
-    if (typeof value == 'undefined') value = '';
+	set(name: string, value: any) {
+		if (typeof name !== "string") return;
+		if (typeof value === "undefined") value = "";
 
-    let { data, target } = this.getData();
-    target[name] = value;
+		const { data, target } = this.getData();
+		target[name] = value;
 
-    window.sessionStorage.setItem('openstad', JSON.stringify(data));
-  }
+		window.sessionStorage.setItem("openstad", JSON.stringify(data));
+	}
 
-  remove(name: string) {
-    if (typeof name != 'string') return;
+	remove(name: string) {
+		if (typeof name !== "string") return;
 
-    let { data, target } = this.getData();
+		const { data, target } = this.getData();
 
-    delete target[name];
+		delete target[name];
 
-    window.sessionStorage.setItem('openstad', JSON.stringify(data));
-  }
+		window.sessionStorage.setItem("openstad", JSON.stringify(data));
+	}
 
-  destroy() {
-    window.sessionStorage.setItem('openstad', JSON.stringify({}));
-  }
-
+	destroy() {
+		window.sessionStorage.setItem("openstad", JSON.stringify({}));
+	}
 }
 
 export { SessionStorage };

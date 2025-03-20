@@ -1,25 +1,24 @@
-const redis = require('redis');
+const redis = require("redis");
 
 let client = null;
 
 async function getClient() {
+	if (client) {
+		return client.duplicate();
+	}
 
-  if (client) {
-    return client.duplicate();
-  }
+	try {
+		client = await redis
+			.createClient({ url: process.env.MESSAGESTREAMING_REDIS_URL })
+			.connect();
+	} catch (err) {
+		// console.log(err);
+	}
 
-  try {
-    client = await redis.createClient({ url: process.env.MESSAGESTREAMING_REDIS_URL })
-      .connect();
-  } catch(err) {
-    // console.log(err);
-  }
-
-  return client;
-
+	return client;
 }
 
 module.exports = {
-  getPublisher: getClient,
-  getSubscriber: getClient,
+	getPublisher: getClient,
+	getSubscriber: getClient,
 };

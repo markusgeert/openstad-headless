@@ -1,16 +1,14 @@
 export default {
-  fetch: async function ({ projectId }) {
-    return [];
-  },
+	fetch: async ({ projectId }) => [],
 
-  create: async function ({ projectId }, data) {
-    delete data.id;
+	create: async function ({ projectId }, data) {
+		delete data.id;
 
-    let url = `/api/project/${projectId}/submission`;
-    let method = 'post';
-    let body = JSON.stringify(data);
+		const url = `/api/project/${projectId}/submission`;
+		const method = "post";
+		const body = JSON.stringify(data);
 
-    let newData = await this.fetch(url, { method, body });
-    return newData;
-  },
+		const newData = await this.fetch(url, { method, body });
+		return newData;
+	},
 };

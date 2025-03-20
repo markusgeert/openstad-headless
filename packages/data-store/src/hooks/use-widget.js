@@ -1,19 +1,17 @@
 export default function useWidget({ projectId, widgetId }) {
-  let self = this;
+	const { data, error, isLoading } = this.useSWR(
+		{ projectId, widgetId },
+		"widget.fetch",
+	);
 
-  const { data, error, isLoading } = self.useSWR(
-    { projectId, widgetId },
-    'widget.fetch'
-  );
+	const widget = data || [];
 
-  let widget = data || [];
+	if (error) {
+		const event = new window.CustomEvent("osc-error", {
+			detail: new Error(error),
+		});
+		document.dispatchEvent(event);
+	}
 
-  if (error) {
-    const event = new window.CustomEvent('osc-error', {
-      detail: new Error(error),
-    });
-    document.dispatchEvent(event);
-  }
-
-  return { data: widget, error, isLoading };
+	return { data: widget, error, isLoading };
 }

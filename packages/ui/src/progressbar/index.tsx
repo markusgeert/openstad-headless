@@ -1,17 +1,17 @@
-import React from 'react';
-import '../index.css';
-import './index.css';
+import type React from "react";
+import "../index.css";
+import "./index.css";
 
 const ProgressBar = (
-  props: React.HTMLAttributes<HTMLDivElement> & { progress: number }
+	props: React.HTMLAttributes<HTMLDivElement> & { progress: number },
 ) => {
-  const { progress } = props;
+	const { progress } = props;
 
-  return (
-    <div className="progressbar">
-      <progress className="progressbar-tracker" value={progress} max="100" />
-    </div>
-  );
+	return (
+		<div className="progressbar">
+			<progress className="progressbar-tracker" value={progress} max="100" />
+		</div>
+	);
 };
 
 export { ProgressBar };

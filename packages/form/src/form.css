@@ -1,37 +1,37 @@
 .utrecht-accordion__button {
- position: relative;
- padding-right: 2rem;
+	position: relative;
+	padding-right: 2rem;
 }
 
 .utrecht-accordion__button::before {
- content: '';
- position: absolute;
- right: 1rem;
- top: 50%;
- transform: translateY(-50%) rotate(135deg);
- width: 0.5rem;
- height: 0.5rem;
- border-style: solid;
- border-width: 0.15em 0.15em 0 0;
- transform-origin: center;
- display: inline-block;
- transition: transform 0.3s ease;
+	content: "";
+	position: absolute;
+	right: 1rem;
+	top: 50%;
+	transform: translateY(-50%) rotate(135deg);
+	width: 0.5rem;
+	height: 0.5rem;
+	border-style: solid;
+	border-width: 0.15em 0.15em 0 0;
+	transform-origin: center;
+	display: inline-block;
+	transition: transform 0.3s ease;
 }
 
 .utrecht-accordion__button[aria-expanded="true"]::before {
- transform: translateY(-50%) rotate(-45deg);
+	transform: translateY(-50%) rotate(-45deg);
 }
 
 figure.info-image-container {
- aspect-ratio: unset;
+	aspect-ratio: unset;
 }
 
-.button-group{
-    display: flex;
-    gap: 1rem;
+.button-group {
+	display: flex;
+	gap: 1rem;
 }
 
 html body .question .marginTop10.marginBottom15 {
-    margin-top: 10px;
-    margin-bottom: 15px;
+	margin-top: 10px;
+	margin-bottom: 15px;
 }

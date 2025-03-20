@@ -1,5 +1,3 @@
-'use strict';
-
 //
 // The configuration options of the server
 //
@@ -12,8 +10,9 @@
  *                           going to expire in.
  */
 exports.token = {
-  expiresIn               : 60 * 60 * 24,
-  calculateExpirationDate : () => new Date(Date.now() + (this.token.expiresIn * 1000)),
+	expiresIn: 60 * 60 * 24,
+	calculateExpirationDate: () =>
+		new Date(Date.now() + this.token.expiresIn * 1000),
 };
 
 /**
@@ -21,7 +20,7 @@ exports.token = {
  * expiresIn - The time in minutes before the code token expires.  Default is 5 minutes.
  */
 exports.codeToken = {
-  expiresIn : 5 * 60,
+	expiresIn: 5 * 60,
 };
 
 /**
@@ -31,7 +30,7 @@ exports.codeToken = {
  *             life instead.
  */
 exports.refreshToken = {
-  expiresIn : 52560000,
+	expiresIn: 52560000,
 };
 
 /**
@@ -42,7 +41,7 @@ exports.refreshToken = {
  *                            expired access tokens.
  */
 exports.db = {
-  timeToCheckExpiredTokens : 3600,
+	timeToCheckExpiredTokens: 3600,
 };
 
 /**
@@ -53,11 +52,11 @@ exports.db = {
  * secret - The session secret that you should change to what you want
  */
 exports.session = {
-  maxAge : 3600000 * 24 * 7, //3600000 * 24 * 7 * 52,
-  secret : process.env.SESSION_SECRET
+	maxAge: 3600000 * 24 * 7, //3600000 * 24 * 7 * 52,
+	secret: process.env.SESSION_SECRET,
 };
 
 exports.client = {
-  defaultEmail: '',
-  defaultProjectUrl: ''
-}
+	defaultEmail: "",
+	defaultProjectUrl: "",
+};

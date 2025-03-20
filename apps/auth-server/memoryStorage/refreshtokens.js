@@ -1,6 +1,4 @@
-'use strict';
-
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 // The refresh tokens.
 // You will use these to get access tokens to access your end point data through the means outlined
@@ -18,12 +16,12 @@ let tokens = Object.create(null);
  * @returns {Promise} resolved with the token
  */
 exports.find = (token) => {
-  try {
-    const id = jwt.decode(token).jti;
-    return Promise.resolve(tokens[id]);
-  } catch (error) {
-    return Promise.resolve(undefined);
-  }
+	try {
+		const id = jwt.decode(token).jti;
+		return Promise.resolve(tokens[id]);
+	} catch (error) {
+		return Promise.resolve(undefined);
+	}
 };
 
 /**
@@ -37,9 +35,9 @@ exports.find = (token) => {
  * @returns {Promise} resolved with the saved token
  */
 exports.save = (token, userID, clientID, scope) => {
-  const id = jwt.decode(token).jti;
-  tokens[id] = { userID, clientID, scope };
-  return Promise.resolve(tokens[id]);
+	const id = jwt.decode(token).jti;
+	tokens[id] = { userID, clientID, scope };
+	return Promise.resolve(tokens[id]);
 };
 
 /**
@@ -48,14 +46,14 @@ exports.save = (token, userID, clientID, scope) => {
  * @returns {Promise} resolved with the deleted token
  */
 exports.delete = (token) => {
-  try {
-    const id = jwt.decode(token).jti;
-    const deletedToken = tokens[id];
-    delete tokens[id];
-    return Promise.resolve(deletedToken);
-  } catch (error) {
-    return Promise.resolve(undefined);
-  }
+	try {
+		const id = jwt.decode(token).jti;
+		const deletedToken = tokens[id];
+		delete tokens[id];
+		return Promise.resolve(deletedToken);
+	} catch (error) {
+		return Promise.resolve(undefined);
+	}
 };
 
 /**
@@ -63,7 +61,7 @@ exports.delete = (token) => {
  * @returns {Promise} resolved with all removed tokens returned
  */
 exports.removeAll = () => {
-  const deletedTokens = tokens;
-  tokens              = Object.create(null);
-  return Promise.resolve(deletedTokens);
+	const deletedTokens = tokens;
+	tokens = Object.create(null);
+	return Promise.resolve(deletedTokens);
 };

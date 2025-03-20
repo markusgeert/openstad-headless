@@ -1,13 +1,11 @@
-'use strict';
+const jwt = require("jsonwebtoken");
+const merge = require("merge");
 
-const jwt = require('jsonwebtoken');
-const merge = require('merge');
-
-let Tasks = {};
+const Tasks = {};
 
 /**
  * Task data is stored in memory only
- * Purpose is only to be able to send information about background tasks. 
+ * Purpose is only to be able to send information about background tasks.
  * Currently the only available task is the creation of unique tokens
  *
  * The structure of this file is similar to tat of other files here; I think it should work as an object instead of this but then maybe so should the rest
@@ -24,12 +22,12 @@ let tasks = Object.create(null);
  * @returns {Promise} resolved with the task
  */
 Tasks.find = (taskId) => {
-  try {
-    Tasks.cleanUp();
-    return Promise.resolve(tasks[taskId]);
-  } catch (error) {
-    return Promise.resolve(undefined);
-  }
+	try {
+		Tasks.cleanUp();
+		return Promise.resolve(tasks[taskId]);
+	} catch (error) {
+		return Promise.resolve(undefined);
+	}
 };
 
 /**
@@ -38,10 +36,13 @@ Tasks.find = (taskId) => {
  * @param   {String}  data - The data to be stored
  */
 Tasks.save = (taskId, newData) => {
-  taskId = taskId || parseInt(Math.random() * 10000000) + 10000000;
-  let oldData = tasks[taskId] || {};
-  tasks[taskId] = merge.recursive(oldData, newData, {taskId, lastUpdateDate: Date.now()});
-  return Promise.resolve(tasks[taskId]);
+	taskId = taskId || Number.parseInt(Math.random() * 10000000) + 10000000;
+	const oldData = tasks[taskId] || {};
+	tasks[taskId] = merge.recursive(oldData, newData, {
+		taskId,
+		lastUpdateDate: Date.now(),
+	});
+	return Promise.resolve(tasks[taskId]);
 };
 
 /**
@@ -50,13 +51,13 @@ Tasks.save = (taskId, newData) => {
  * @returns {Promise} resolved with the deleted task
  */
 Tasks.delete = (taskId) => {
-  try {
-    const deletedTask = tasks[taskId];
-    delete tasks[taskId];
-    return Promise.resolve(deletedTask);
-  } catch (error) {
-    return Promise.resolve(undefined);
-  }
+	try {
+		const deletedTask = tasks[taskId];
+		delete tasks[taskId];
+		return Promise.resolve(deletedTask);
+	} catch (error) {
+		return Promise.resolve(undefined);
+	}
 };
 
 /**
@@ -64,9 +65,9 @@ Tasks.delete = (taskId) => {
  * @returns {Promise} resolved with all removed tasks returned
  */
 Tasks.removeAll = () => {
-  const deletedTasks = tasks;
-  tasks = Object.create(null);
-  return Promise.resolve(deletedTasks);
+	const deletedTasks = tasks;
+	tasks = Object.create(null);
+	return Promise.resolve(deletedTasks);
 };
 
 /**
@@ -74,15 +75,14 @@ Tasks.removeAll = () => {
  * @returns {Promise} resolved with undef
  */
 Tasks.cleanUp = async () => {
-  let maxTaskAge = 60 * 60 * 1000; // milliseconds // TODO: configurable
-  for (let taskId of Object.keys(tasks)) {
-    let task = tasks[taskId];
-    if (Date.now() - task.lastUpdateDate > maxTaskAge) {
-      await Tasks.delete(taskId);
-    }
-  }
-  return Promise.resolve(undefined);
+	const maxTaskAge = 60 * 60 * 1000; // milliseconds // TODO: configurable
+	for (const taskId of Object.keys(tasks)) {
+		const task = tasks[taskId];
+		if (Date.now() - task.lastUpdateDate > maxTaskAge) {
+			await Tasks.delete(taskId);
+		}
+	}
+	return Promise.resolve(undefined);
 };
-
 
 module.exports = exports = Tasks;

@@ -1,93 +1,101 @@
 .like-widget-container {
-  display: grid;
-  margin-block-start: var(--nlds-likewidget-margin-block-start, var(--nlds-default-margin-block-start, 1.5rem));
-  margin-block-end: var(--nlds-likewidget-margin-block-end, var(--nlds-default-margin-block-end, 1.5rem));
-  padding: var(--nlds-likewidget-container-padding, 1.5rem);
-  gap: var(--nlds-likewidget-container-gap, 0.5rem);
-  background-color: var(--nlds-likewidget-container-background-color, var(--nlds-default-background-color, #F0F4F8));
+	display: grid;
+	margin-block-start: var(
+		--nlds-likewidget-margin-block-start,
+		var(--nlds-default-margin-block-start, 1.5rem)
+	);
+	margin-block-end: var(
+		--nlds-likewidget-margin-block-end,
+		var(--nlds-default-margin-block-end, 1.5rem)
+	);
+	padding: var(--nlds-likewidget-container-padding, 1.5rem);
+	gap: var(--nlds-likewidget-container-gap, 0.5rem);
+	background-color: var(
+		--nlds-likewidget-container-background-color,
+		var(--nlds-default-background-color, #f0f4f8)
+	);
 }
 
 .like-option-container {
-  display: grid;
-  gap: 0.5rem;
+	display: grid;
+	gap: 0.5rem;
 }
 
-.like-option-container button{
-  max-width: revert;
+.like-option-container button {
+	max-width: revert;
 }
 
 .like-widget-container.medium .like-option-container {
-  grid-template-columns: 1fr 1fr;
+	grid-template-columns: 1fr 1fr;
 }
 
-.like-widget-container.medium .like-option-container .utrecht-button:first-of-type:last-of-type{
-  grid-column: span 2;
+.like-widget-container.medium
+	.like-option-container
+	.utrecht-button:first-of-type:last-of-type {
+	grid-column: span 2;
 }
 
-.like-widget-container.medium{
-  container-type: inline-size;
+.like-widget-container.medium {
+	container-type: inline-size;
 }
 
 @container (max-width: 400px) {
-  .like-widget-container.medium .like-option-container{
-    grid-template-columns: 1fr;
-  }
+	.like-widget-container.medium .like-option-container {
+		grid-template-columns: 1fr;
+	}
 }
-
-
 
 .like-option {
-  max-width: unset;
+	max-width: unset;
 }
 
-
 .like-option.osc-no-counter {
-  grid-template-columns: 1fr;
+	grid-template-columns: 1fr;
 }
 
 .like-widget-container.small .like-option {
-  grid-template-columns: 1fr 1fr;
-  gap: 0.125rem;
+	grid-template-columns: 1fr 1fr;
+	gap: 0.125rem;
 }
 
 .like-widget-container.small .like-option.osc-no-counter {
-  grid-template-columns: 1fr;
-  gap: 0.125rem;
+	grid-template-columns: 1fr;
+	gap: 0.125rem;
 }
 
 .like-kind {
-  display: flex;
-  flex-grow: 1;
-  gap: 0.5rem;
-  padding: 0.5rem;
-  align-items: center;
+	display: flex;
+	flex-grow: 1;
+	gap: 0.5rem;
+	padding: 0.5rem;
+	align-items: center;
 }
 
-.like-kind .selected{
-  outline: 2px var(--utrecht-button-primary-action-background-color) dashed !important;
-  outline-offset: 1px;
+.like-kind .selected {
+	outline: 2px var(--utrecht-button-primary-action-background-color) dashed !important;
+	outline-offset: 1px;
 }
 
 .like-widget-container.small .like-option > .like-kind {
-  justify-content: center;
-  align-items: center;
+	justify-content: center;
+	align-items: center;
 }
 
 .progressbar-container {
-  display: grid;
-  grid-template-columns: 1fr auto;
-  align-items: center;
-  gap: 0.5rem;
+	display: grid;
+	grid-template-columns: 1fr auto;
+	align-items: center;
+	gap: 0.5rem;
 }
 
 .progressbar-container p {
-  font-size: 0.875rem;
+	font-size: 0.875rem;
 }
 
 .osc .like-widget-container p {
-  text-align: center;
+	text-align: center;
 }
 
 .osc .like-widget-container div h6 {
-  text-align: start;
+	text-align: start;
 }

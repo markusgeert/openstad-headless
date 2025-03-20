@@ -1,119 +1,118 @@
-import React from 'react';
-import ReactDOMServer from 'react-dom/server';
-import { Parser as HtmlToReactParser, ProcessNodeDefinitions } from 'html-to-react';
+import {
+	Parser as HtmlToReactParser,
+	ProcessNodeDefinitions,
+} from "html-to-react";
+import React from "react";
+import ReactDOMServer from "react-dom/server";
 
 import "@utrecht/component-library-css";
 import "@utrecht/design-tokens/dist/root.css";
-import { Heading1, Heading2, Heading3, Heading4, Paragraph, Link, Strong, OrderedList, OrderedListItem, UnorderedList, UnorderedListItem } from "@utrecht/component-library-react";
+import {
+	Heading1,
+	Heading2,
+	Heading3,
+	Heading4,
+	Link,
+	OrderedList,
+	OrderedListItem,
+	Paragraph,
+	Strong,
+	UnorderedList,
+	UnorderedListItem,
+} from "@utrecht/component-library-react";
 
 export default function RenderContent(content) {
-  const htmlInput = `<div>${content}</div>`;
+	const htmlInput = `<div>${content}</div>`;
 
-  const isValidNode = function () {
-    return true;
-  };
+	const isValidNode = () => true;
 
-  // Order matters. Instructions are processed in the order they're defined
-  const processNodeDefinitions = new ProcessNodeDefinitions();
-  const processingInstructions = [
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'h1';
-      },
-      processNode: function (node, children, index) {
-        return <Heading1 key={index}>{children}</Heading1>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'h2';
-      },
-      processNode: function (node, children, index) {
-        return <Heading2 key={index}>{children}</Heading2>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'h3';
-      },
-      processNode: function (node, children, index) {
-        return <Heading3 key={index}>{children}</Heading3>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'h4';
-      },
-      processNode: function (node, children, index) {
-        return <Heading4 key={index}>{children}</Heading4>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'p';
-      },
-      processNode: function (node, children, index) {
-        return <Paragraph key={index}>{children}</Paragraph>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'a';
-      },
-      processNode: function (node, children, index) {
-        return <Link key={index} href={node.attribs.href} target={node.attribs.target}>{children}</Link>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'strong';
-      },
-      processNode: function (node, children, index) {
-        return <Strong key={index}>{children}</Strong>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'ol';
-      },
-      processNode: function (node, children, index) {
-        return <OrderedList key={index}>{children}</OrderedList>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'li' && node.parent.name === 'ol';
-      },
-      processNode: function (node, children, index) {
-        return <OrderedListItem key={index}>{children}</OrderedListItem>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'ul';
-      },
-      processNode: function (node, children, index) {
-        return <UnorderedList key={index}>{children}</UnorderedList>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return node && node.name && node.name === 'li' && node.parent.name === 'ul';
-      },
-      processNode: function (node, children, index) {
-        return <UnorderedListItem key={index}>{children}</UnorderedListItem>;
-      }
-    },
-    {
-      shouldProcessNode: function (node) {
-        return true;
-      },
-      processNode: processNodeDefinitions.processDefaultNode
-    }
-  ];
-  const htmlToReactParser = new HtmlToReactParser();
-  const reactComponent = htmlToReactParser.parseWithInstructions(htmlInput, isValidNode,
-    processingInstructions);
+	// Order matters. Instructions are processed in the order they're defined
+	const processNodeDefinitions = new ProcessNodeDefinitions();
+	const processingInstructions = [
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "h1",
+			processNode: (node, children, index) => (
+				<Heading1 key={index}>{children}</Heading1>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "h2",
+			processNode: (node, children, index) => (
+				<Heading2 key={index}>{children}</Heading2>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "h3",
+			processNode: (node, children, index) => (
+				<Heading3 key={index}>{children}</Heading3>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "h4",
+			processNode: (node, children, index) => (
+				<Heading4 key={index}>{children}</Heading4>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "p",
+			processNode: (node, children, index) => (
+				<Paragraph key={index}>{children}</Paragraph>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "a",
+			processNode: (node, children, index) => (
+				<Link key={index} href={node.attribs.href} target={node.attribs.target}>
+					{children}
+				</Link>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "strong",
+			processNode: (node, children, index) => (
+				<Strong key={index}>{children}</Strong>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "ol",
+			processNode: (node, children, index) => (
+				<OrderedList key={index}>{children}</OrderedList>
+			),
+		},
+		{
+			shouldProcessNode: (node) =>
+				node?.name && node.name === "li" && node.parent.name === "ol",
+			processNode: (node, children, index) => (
+				<OrderedListItem key={index}>{children}</OrderedListItem>
+			),
+		},
+		{
+			shouldProcessNode: (node) => node?.name && node.name === "ul",
+			processNode: (node, children, index) => (
+				<UnorderedList key={index}>{children}</UnorderedList>
+			),
+		},
+		{
+			shouldProcessNode: (node) =>
+				node?.name && node.name === "li" && node.parent.name === "ul",
+			processNode: (node, children, index) => (
+				<UnorderedListItem key={index}>{children}</UnorderedListItem>
+			),
+		},
+		{
+			shouldProcessNode: (node) => true,
+			processNode: processNodeDefinitions.processDefaultNode,
+		},
+	];
+	const htmlToReactParser = new HtmlToReactParser();
+	const reactComponent = htmlToReactParser.parseWithInstructions(
+		htmlInput,
+		isValidNode,
+		processingInstructions,
+	);
 
-  return ReactDOMServer.renderToStaticMarkup(reactComponent).substring(5, ReactDOMServer.renderToStaticMarkup(reactComponent).length - 6)
+	return ReactDOMServer.renderToStaticMarkup(reactComponent).substring(
+		5,
+		ReactDOMServer.renderToStaticMarkup(reactComponent).length - 6,
+	);
 }

@@ -73,6 +73,7 @@
 		"zod": "^3.22.2"
 	},
 	"devDependencies": {
+		"@openstad-headless/biome-config": "*",
 		"@types/leaflet": "^1.9.6",
 		"@types/leaflet-draw": "^1.0.9",
 		"@types/lodash": "^4.14.202",
@@ -82,7 +83,6 @@
 		"@types/react": "^18.0.0",
 		"@types/react-csv": "^1.1.8",
 		"@types/react-dom": "^18.0.0",
-		"@openstad-headless/eslint-config": "*",
 		"tailwind-merge": "^1.14.0",
 		"tailwindcss": "3.3.3",
 		"tailwindcss-animate": "^1.0.7",

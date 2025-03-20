@@ -1,19 +1,14 @@
 export default function useArea({ projectId, areaId }) {
-    let self = this;
+	const { data, error, isLoading } = this.useSWR({ projectId }, "area.fetch");
 
-    const { data, error, isLoading } = self.useSWR(
-        { projectId },
-        'area.fetch'
-    );
+	const area = data || [];
 
-    let area = data || [];
+	if (error) {
+		const event = new window.CustomEvent("osc-error", {
+			detail: new Error(error),
+		});
+		document.dispatchEvent(event);
+	}
 
-    if (error) {
-        const event = new window.CustomEvent('osc-error', {
-            detail: new Error(error),
-        });
-        document.dispatchEvent(event);
-    }
-
-    return { data: area, error, isLoading };
+	return { data: area, error, isLoading };
 }

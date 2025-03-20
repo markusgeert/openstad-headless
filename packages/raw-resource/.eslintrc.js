@@ -1,3 +1,3 @@
 export default {
-  extends: ['custom/library'],
+	extends: ["custom/library"],
 };

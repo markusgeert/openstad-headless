@@ -7,8 +7,10 @@
 		"build": "turbo run build",
 		"dev": "turbo run dev",
 		"lint": "turbo run lint",
-		"check": "biome check .",
-		"fix": "biome check . --write",
+
+		"check": "biome check . --reporter=summary",
+		"fix": "biome check . --write --reporter=summary",
+
 		"create-docker-config": "node ./scripts/create-docker-config.js",
 		"setup": "node ./scripts/setup-all.js",
 		"start": "node ./scripts/start-all.js",

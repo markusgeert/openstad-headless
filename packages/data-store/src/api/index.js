@@ -1,130 +1,129 @@
-import fetchx from './fetch';
-import resource from './resource';
-import comments from './comments';
-import resources from './resources';
+import area from "./area";
+import areas from "./areas";
+import choiceGuideResults from "./choiceGuideResults";
 import choicesguide from "./choicesguide";
-import tags from './tags';
-import user from './user';
-import area from './area';
-import datalayer from './datalayer';
-import widget from './widget';
-import areas from './areas';
-import userVote from './user-vote';
-import submissions from './submissions';
-import commentsByProject from './commentsByProject';
-import choiceGuideResults from './choiceGuideResults';
-import userActivity from './user-activity';
+import comments from "./comments";
+import commentsByProject from "./commentsByProject";
+import datalayer from "./datalayer";
+import fetchx from "./fetch";
+import resource from "./resource";
+import resources from "./resources";
+import submissions from "./submissions";
+import tags from "./tags";
+import user from "./user";
+import userActivity from "./user-activity";
+import userVote from "./user-vote";
+import widget from "./widget";
 
 const windowGlobal = typeof window !== "undefined" ? window : {};
 
 windowGlobal.OpenStadAPI = null;
 export default function singelton(props = { config: {} }) {
-  return (windowGlobal.OpenStadAPI = windowGlobal.OpenStadAPI || new API(props));
+	return (windowGlobal.OpenStadAPI =
+		windowGlobal.OpenStadAPI || new API(props));
 }
 
 export function getApiFetchMethodNames() {
-  const apiInstance = new API({ logMethods: true });
-  const apiFetchMethodNames = [];
+	const apiInstance = new API({ logMethods: true });
+	const apiFetchMethodNames = [];
 
-  for (const key of Object.keys(apiInstance)) {
-    const value = apiInstance[key];
-    if (value && typeof value === 'object' && 'fetch' in value) {
-      apiFetchMethodNames.push(key);
-    }
-  }
+	for (const key of Object.keys(apiInstance)) {
+		const value = apiInstance[key];
+		if (value && typeof value === "object" && "fetch" in value) {
+			apiFetchMethodNames.push(key);
+		}
+	}
 
-  return apiFetchMethodNames;
+	return apiFetchMethodNames;
 }
 
 function API(props = {}) {
-  let self = this;
+	this.apiUrl = props.apiUrl || props.api?.url || null;
+	this.projectId = props.projectId || 0;
 
-  self.apiUrl = props.apiUrl || props.api?.url || null;
-  self.projectId = props.projectId || 0;
+	this.fetch = fetchx.bind(this);
 
-  self.fetch = fetchx.bind(self);
+	this.choiceGuideResults = {
+		fetch: choiceGuideResults.fetch.bind(this),
+	};
 
-  self.choiceGuideResults = {
-    fetch: choiceGuideResults.fetch.bind(self)
-  }
+	this.comments = {
+		fetch: comments.fetch.bind(this),
+		create: comments.create.bind(this),
+		update: comments.update.bind(this),
+		delete: comments.delete.bind(this),
+		submitLike: comments.submitLike.bind(this),
+	};
 
-  self.comments = {
-    fetch: comments.fetch.bind(self),
-    create: comments.create.bind(self),
-    update: comments.update.bind(self),
-    delete: comments.delete.bind(self),
-    submitLike: comments.submitLike.bind(self),
-  };
+	this.commentsByProject = {
+		fetch: commentsByProject.fetch.bind(this),
+	};
 
-  self.commentsByProject = {
-    fetch: commentsByProject.fetch.bind(self)
-  }
+	this.resource = {
+		fetch: resource.fetch.bind(this),
+		update: resource.update.bind(this),
+		delete: resource.delete.bind(this),
+		submitLike: resource.submitLike.bind(this),
+	};
 
-  self.resource = {
-    fetch: resource.fetch.bind(self),
-    update: resource.update.bind(self),
-    delete: resource.delete.bind(self),
-    submitLike: resource.submitLike.bind(self),
-  };
+	this.resources = {
+		fetch: resources.fetch.bind(this),
+		delete: resources.delete.bind(this),
+		create: resources.create.bind(this),
+		submitLike: resources.submitLike.bind(this),
+	};
 
-  self.resources = {
-    fetch: resources.fetch.bind(self),
-    delete: resources.delete.bind(self),
-    create: resources.create.bind(self),
-    submitLike: resources.submitLike.bind(self)
-  };
+	this.choicesguide = {
+		fetch: choicesguide.fetch.bind(this),
+		create: choicesguide.create.bind(this),
+	};
 
-  self.choicesguide = {
-    fetch: choicesguide.fetch.bind(self),
-    create: choicesguide.create.bind(self)
-  };
+	this.submissions = {
+		fetch: submissions.fetch.bind(this),
+		create: submissions.create.bind(this),
+	};
 
-  self.submissions = {
-    fetch: submissions.fetch.bind(self),
-    create: submissions.create.bind(self)
-  }
+	this.tags = {
+		fetch: tags.fetch.bind(this),
+		create: tags.create.bind(this),
+		update: tags.update.bind(this),
+		delete: tags.delete.bind(this),
+	};
 
-  self.tags = {
-    fetch: tags.fetch.bind(self),
-    create: tags.create.bind(self),
-    update: tags.update.bind(self),
-    delete: tags.delete.bind(self),
-  };
+	this.area = {
+		fetch: area.fetch.bind(this),
+	};
 
-  self.area = {
-    fetch: area.fetch.bind(self),
-  };
+	this.datalayer = {
+		fetch: datalayer.fetch.bind(this),
+	};
 
-  self.datalayer = {
-    fetch: datalayer.fetch.bind(self),
-  };
+	this.widget = {
+		fetch: widget.fetch.bind(this),
+	};
 
-  self.widget = {
-    fetch: widget.fetch.bind(self),
-  };
+	this.areas = {
+		fetch: areas.fetch.bind(this),
+	};
 
-  self.areas = {
-    fetch: areas.fetch.bind(self),
-  };
+	this.user = {
+		fetch: user.fetch.bind(this),
+		fetchMe: user.fetchMe.bind(this),
+		connectUser: user.connectUser.bind(this),
+		update: user.update.bind(this),
+		logout: user.logout.bind(this),
+	};
 
-  self.user = {
-    fetch: user.fetch.bind(self),
-    fetchMe: user.fetchMe.bind(self),
-    connectUser: user.connectUser.bind(self),
-    update: user.update.bind(self),
-    logout: user.logout.bind(self),
-  };
+	this.userVote = {
+		fetch: userVote.fetch.bind(this),
+		submitVote: userVote.submitVote.bind(this),
+	};
 
-  self.userVote = {
-    fetch: userVote.fetch.bind(self),
-    submitVote: userVote.submitVote.bind(self),
-  };
+	this.userActivity = {
+		fetch: userActivity.fetch.bind(this),
+	};
 
-  self.userActivity = {
-    fetch: userActivity.fetch.bind(self),
-  };
-
-  if (props.logMethods) {
-    return self;
-  }
+	if (props.logMethods) {
+		return this;
+	}
 }

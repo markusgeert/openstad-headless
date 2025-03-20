@@ -1,11 +1,11 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {Footer} from './footer.tsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Footer } from "./footer.tsx";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Footer 
-      content='[
+ReactDOM.createRoot(document.getElementById("root")!).render(
+	<React.StrictMode>
+		<Footer
+			content='[
         {
           "title": "Over deze site",
           "items": [
@@ -54,6 +54,6 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
           ]
         }
       ]'
-    />
-  </React.StrictMode>,
-)
+		/>
+	</React.StrictMode>,
+);

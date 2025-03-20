@@ -1,16 +1,16 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { CounterWidgetProps, Counter } from './counter.js';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Counter, type CounterWidgetProps } from "./counter.js";
 
 const config: CounterWidgetProps = {
-  counterType: 'resource',
-  label: 'Hoeveelheid',
-  url: 'https://www.google.com',
-  opinion: '',
+	counterType: "resource",
+	label: "Hoeveelheid",
+	url: "https://www.google.com",
+	opinion: "",
 };
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Counter {...config} />
-  </React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+	<React.StrictMode>
+		<Counter {...config} />
+	</React.StrictMode>,
 );

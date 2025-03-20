@@ -1,6 +1,6 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import Form from './form.js';
+import React from "react";
+import ReactDOM from "react-dom/client";
+import Form from "./form.js";
 
 // Commented code is an example of how this component can be used
 
@@ -91,13 +91,13 @@ import Form from './form.js';
 //     },
 // ];
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Form
-        // fields={fields}
-        // submitHandler={(data) => console.log(data)}
-        // secondaryLabel="Opslaan als concept"
-        // secondaryHandler={(data) => console.log(data)}
-    />
-  </React.StrictMode>
+ReactDOM.createRoot(document.getElementById("root")!).render(
+	<React.StrictMode>
+		<Form
+		// fields={fields}
+		// submitHandler={(data) => console.log(data)}
+		// secondaryLabel="Opslaan als concept"
+		// secondaryHandler={(data) => console.log(data)}
+		/>
+	</React.StrictMode>,
 );

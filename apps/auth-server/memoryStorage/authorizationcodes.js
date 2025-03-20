@@ -1,6 +1,4 @@
-'use strict';
-
-const jwt = require('jsonwebtoken');
+const jwt = require("jsonwebtoken");
 
 // The authorization codes.
 // You will use these to get the access codes to get to the data in your endpoints as outlined
@@ -18,12 +16,12 @@ let codes = Object.create(null);
  * @returns {Promise} resolved with the authorization code if found, otherwise undefined
  */
 exports.find = (token) => {
-  try {
-    const id = jwt.decode(token).jti;
-    return Promise.resolve(codes[id]);
-  } catch (error) {
-    return Promise.resolve(undefined);
-  }
+	try {
+		const id = jwt.decode(token).jti;
+		return Promise.resolve(codes[id]);
+	} catch (error) {
+		return Promise.resolve(undefined);
+	}
 };
 
 /**
@@ -38,9 +36,9 @@ exports.find = (token) => {
  * @returns {Promise} resolved with the saved token
  */
 exports.save = (code, clientID, redirectURI, userID, scope) => {
-  const id = jwt.decode(code).jti;
-  codes[id] = { clientID, redirectURI, userID, scope };
-  return Promise.resolve(codes[id]);
+	const id = jwt.decode(code).jti;
+	codes[id] = { clientID, redirectURI, userID, scope };
+	return Promise.resolve(codes[id]);
 };
 
 /**
@@ -49,14 +47,14 @@ exports.save = (code, clientID, redirectURI, userID, scope) => {
  * @returns {Promise} resolved with the deleted value
  */
 exports.delete = (token) => {
-  try {
-    const id = jwt.decode(token).jti;
-    const deletedToken = codes[id];
-    delete codes[id];
-    return Promise.resolve(deletedToken);
-  } catch (error) {
-    return Promise.resolve(undefined);
-  }
+	try {
+		const id = jwt.decode(token).jti;
+		const deletedToken = codes[id];
+		delete codes[id];
+		return Promise.resolve(deletedToken);
+	} catch (error) {
+		return Promise.resolve(undefined);
+	}
 };
 
 /**
@@ -64,7 +62,7 @@ exports.delete = (token) => {
  * @returns {Promise} resolved with all removed authorization codes returned
  */
 exports.removeAll = () => {
-  const deletedTokens = codes;
-  codes               = Object.create(null);
-  return Promise.resolve(deletedTokens);
+	const deletedTokens = codes;
+	codes = Object.create(null);
+	return Promise.resolve(deletedTokens);
 };

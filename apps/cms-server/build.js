@@ -5,9 +5,9 @@ const releaseId = Math.random().toString(36).substring(2, 10);
 console.log(`releaseId generated: ${releaseId}`);
 
 // Write it to the ./release-id file
-const fs = require('fs');
-fs.writeFileSync('./release-id', releaseId);
+const fs = require("node:fs");
+fs.writeFileSync("./release-id", releaseId);
 
-const aposConfig = require('./lib/apos-config');
-aposConfig.shortName = 'cms-server';
-require('apostrophe')(aposConfig);
+const aposConfig = require("./lib/apos-config");
+aposConfig.shortName = "cms-server";
+require("apostrophe")(aposConfig);

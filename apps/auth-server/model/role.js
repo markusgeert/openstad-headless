@@ -1,25 +1,22 @@
-'use strict';
-
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 
 module.exports = (db, sequelize, Sequelize) => {
+	const Role = sequelize.define(
+		"role",
+		{
+			name: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
+		},
+		{
+			tableName: "roles",
+		},
+	);
 
-  let Role = sequelize.define('role', {
+	Role.associate = function (models) {
+		this.hasMany(db.UserRole);
+	};
 
-    name: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
-
-  }, {
-    tableName: 'roles',
-  });
-
-  Role.associate = function (models) {
-    this.hasMany(db.UserRole);
-  }
-
-  return Role;
-
-}
-
+	return Role;
+};

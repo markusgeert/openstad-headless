@@ -1,6 +1,4 @@
-'use strict';
-
-const utils     = require('../../../utils');
+const utils = require("../../../utils");
 
 /**
  * Our validate module object we export at the bottom
@@ -19,13 +17,13 @@ const validate = Object.create(null);
  * @returns {undefined}
  */
 validate.accessToken = (response, body) => {
-  expect(response.statusCode).toEqual(200);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(3);
-  utils.verifyToken(jsonResponse.access_token);
-  expect(jsonResponse.expires_in).toEqual(3600);
-  expect(jsonResponse.token_type).toEqual('Bearer');
+	expect(response.statusCode).toEqual(200);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual("application/json");
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(3);
+	utils.verifyToken(jsonResponse.access_token);
+	expect(jsonResponse.expires_in).toEqual(3600);
+	expect(jsonResponse.token_type).toEqual("Bearer");
 };
 
 /**
@@ -41,13 +39,13 @@ validate.accessToken = (response, body) => {
  * @returns {undefined}
  */
 validate.accessRefreshToken = (response, body) => {
-  expect(response.statusCode).toEqual(200);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(4);
-  utils.verifyToken(jsonResponse.access_token);
-  expect(jsonResponse.expires_in).toEqual(3600);
-  expect(jsonResponse.token_type).toEqual('Bearer');
+	expect(response.statusCode).toEqual(200);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual("application/json");
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(4);
+	utils.verifyToken(jsonResponse.access_token);
+	expect(jsonResponse.expires_in).toEqual(3600);
+	expect(jsonResponse.token_type).toEqual("Bearer");
 };
 
 /**
@@ -63,15 +61,17 @@ validate.accessRefreshToken = (response, body) => {
  * @returns {undefined}
  */
 validate.userJson = (response, body) => {
-  expect(response.statusCode).toEqual(200);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json; charset=utf-8');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(3);
-  expect(jsonResponse).toEqual({
-    user_id : '1',
-    name    : 'Bob Smith',
-    scope   : '*',
-  });
+	expect(response.statusCode).toEqual(200);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual(
+		"application/json; charset=utf-8",
+	);
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(3);
+	expect(jsonResponse).toEqual({
+		user_id: "1",
+		name: "Bob Smith",
+		scope: "*",
+	});
 };
 
 /**
@@ -87,12 +87,14 @@ validate.userJson = (response, body) => {
  * @returns {undefined}
  */
 validate.tokenInfoJson = (response, body) => {
-  expect(response.statusCode).toEqual(200);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json; charset=utf-8');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(2);
-  expect(jsonResponse).to.have.property('audience', 'trustedClient');
-  expect(jsonResponse.expires_in).to.be.above(3500);
+	expect(response.statusCode).toEqual(200);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual(
+		"application/json; charset=utf-8",
+	);
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(2);
+	expect(jsonResponse).to.have.property("audience", "trustedClient");
+	expect(jsonResponse.expires_in).to.be.above(3500);
 };
 
 /**
@@ -106,13 +108,15 @@ validate.tokenInfoJson = (response, body) => {
  * @returns {undefined}
  */
 validate.invalidTokenInfoJson = (response, body) => {
-  expect(response.statusCode).toEqual(400);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json; charset=utf-8');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(1);
-  expect(jsonResponse).toEqual({
-    error : 'invalid_token',
-  });
+	expect(response.statusCode).toEqual(400);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual(
+		"application/json; charset=utf-8",
+	);
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(1);
+	expect(jsonResponse).toEqual({
+		error: "invalid_token",
+	});
 };
 
 /**
@@ -124,11 +128,13 @@ validate.invalidTokenInfoJson = (response, body) => {
  * @returns {undefined}
  */
 validate.revokeTokenJson = (response, body) => {
-  expect(response.statusCode).toEqual(200);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json; charset=utf-8');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(0);
-  expect(jsonResponse).toEqual({});
+	expect(response.statusCode).toEqual(200);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual(
+		"application/json; charset=utf-8",
+	);
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(0);
+	expect(jsonResponse).toEqual({});
 };
 
 /**
@@ -144,15 +150,17 @@ validate.revokeTokenJson = (response, body) => {
  * @returns {undefined}
  */
 validate.clientJson = (response, body) => {
-  expect(response.statusCode).toEqual(200);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json; charset=utf-8');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(3);
-  expect(jsonResponse).toEqual({
-    client_id : '3',
-    name      : 'Samplr3',
-    scope     : '*',
-  });
+	expect(response.statusCode).toEqual(200);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual(
+		"application/json; charset=utf-8",
+	);
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(3);
+	expect(jsonResponse).toEqual({
+		client_id: "3",
+		name: "Samplr3",
+		scope: "*",
+	});
 };
 
 /**
@@ -166,14 +174,14 @@ validate.clientJson = (response, body) => {
  * @returns {undefined}
  */
 validate.invalidCodeError = (response, body) => {
-  expect(response.statusCode).toEqual(403);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(2);
-  expect(jsonResponse).toEqual({
-    error             : 'invalid_grant',
-    error_description : 'Invalid authorization code',
-  });
+	expect(response.statusCode).toEqual(403);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual("application/json");
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(2);
+	expect(jsonResponse).toEqual({
+		error: "invalid_grant",
+		error_description: "Invalid authorization code",
+	});
 };
 
 /**
@@ -187,14 +195,14 @@ validate.invalidCodeError = (response, body) => {
  * @returns {undefined}
  */
 validate.invalidRefreshToken = (response, body) => {
-  expect(response.statusCode).toEqual(403);
-  const jsonResponse = JSON.parse(body);
-  expect(response.headers['content-type']).toEqual('application/json');
-  expect(Object.keys(jsonResponse)).to.have.lengthOf(2);
-  expect(jsonResponse).toEqual({
-    error             : 'invalid_grant',
-    error_description : 'Invalid refresh token',
-  });
+	expect(response.statusCode).toEqual(403);
+	const jsonResponse = JSON.parse(body);
+	expect(response.headers["content-type"]).toEqual("application/json");
+	expect(Object.keys(jsonResponse)).to.have.lengthOf(2);
+	expect(jsonResponse).toEqual({
+		error: "invalid_grant",
+		error_description: "Invalid refresh token",
+	});
 };
 
 /**
@@ -203,7 +211,7 @@ validate.invalidRefreshToken = (response, body) => {
  * @returns {undefined}
  */
 validate.authorizationCode = (code) => {
-  utils.verifyToken(code);
+	utils.verifyToken(code);
 };
 
 module.exports = validate;

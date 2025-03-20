@@ -67,12 +67,12 @@ time,
 mark,
 audio,
 video {
-  border: 0;
-  font: inherit;
-  font-size: 100%;
-  margin: 0;
-  padding: 0;
-  vertical-align: baseline;
+	border: 0;
+	font: inherit;
+	font-size: 100%;
+	margin: 0;
+	padding: 0;
+	vertical-align: baseline;
 }
 
 article,
@@ -86,166 +86,176 @@ hgroup,
 menu,
 nav,
 section {
-  display: block;
+	display: block;
 }
 
 ins {
-  background-color: #ff9;
-  color: #000;
-  text-decoration: none;
+	background-color: #ff9;
+	color: #000;
+	text-decoration: none;
 }
 
 mark {
-  background-color: #ff9;
-  color: #000;
-  font-style: italic;
-  font-weight: 600;
+	background-color: #ff9;
+	color: #000;
+	font-style: italic;
+	font-weight: 600;
 }
 
 del {
-  text-decoration: line-through;
+	text-decoration: line-through;
 }
 
 abbr[title],
 dfn[title] {
-  border-bottom: 1px dotted;
-  cursor: help;
+	border-bottom: 1px dotted;
+	cursor: help;
 }
 
 table {
-  border-collapse: collapse;
-  border-spacing: 0;
+	border-collapse: collapse;
+	border-spacing: 0;
 }
 
 hr {
-  border: 0;
-  border-top: 1px solid #bebebe;
-  display: block;
-  height: 1px;
-  margin: 1em 0;
-  padding: 0;
+	border: 0;
+	border-top: 1px solid #bebebe;
+	display: block;
+	height: 1px;
+	margin: 1em 0;
+	padding: 0;
 }
 
 input,
 select {
-  vertical-align: middle;
+	vertical-align: middle;
 }
 
 body {
-  font-family: verdana, sans-serif;
+	font-family: verdana, sans-serif;
 }
 
 select,
 input,
 textarea,
 button {
-  font-family: sans-serif;
+	font-family: sans-serif;
 }
 
 pre,
 code,
 kbd,
 samp {
-  font-family: monospace, sans-serif;
+	font-family: monospace, sans-serif;
 }
 
 ul,
 ol {
-  margin-left: 2em;
+	margin-left: 2em;
 }
 
 ol {
-  list-style-type: decimal;
+	list-style-type: decimal;
 }
 
 nav ul,
 nav li {
-  list-style: none;
-  list-style-image: none;
-  margin: 0;
+	list-style: none;
+	list-style-image: none;
+	margin: 0;
 }
 
 small {
-  font-size: 85%;
+	font-size: 85%;
 }
 
 strong,
 th {
-  font-weight: 700;
+	font-weight: 700;
 }
 
 em {
-  font-style: italic;
+	font-style: italic;
 }
 
 td {
-  vertical-align: top;
+	vertical-align: top;
 }
 
 sub,
 sup {
-  font-size: 75%;
-  line-height: 0;
-  position: relative;
+	font-size: 75%;
+	line-height: 0;
+	position: relative;
 }
 
 sup {
-  top: -0.5em;
+	top: -0.5em;
 }
 
 sub {
-  bottom: -0.25em;
+	bottom: -0.25em;
 }
 
 pre {
-  padding: 0;
-  white-space: pre-wrap;
-  word-wrap: break-word;
+	padding: 0;
+	white-space: pre-wrap;
+	word-wrap: break-word;
 }
 
 textarea {
-  overflow: auto;
+	overflow: auto;
 }
 
-form.formulier div.selectie div.invoer div.antwoorden div.antwoord input[type=radio] {
-  vertical-align: top;
+form.formulier
+	div.selectie
+	div.invoer
+	div.antwoorden
+	div.antwoord
+	input[type="radio"] {
+	vertical-align: top;
 }
 
-form.formulier div.selectie div.invoer div.antwoorden div.antwoord input[type=checkbox] {
-  vertical-align: top;
+form.formulier
+	div.selectie
+	div.invoer
+	div.antwoorden
+	div.antwoord
+	input[type="checkbox"] {
+	vertical-align: top;
 }
 
 label,
-input[type=button],
-input[type=submit],
-input[type=image],
+input[type="button"],
+input[type="submit"],
+input[type="image"],
 button {
-  cursor: pointer;
+	cursor: pointer;
 }
 
 button,
 input,
 select,
 textarea {
-  margin: 0;
+	margin: 0;
 }
 
 a:link {
-  -webkit-tap-highlight-color: #ddd;
+	-webkit-tap-highlight-color: #ddd;
 }
 
 button {
-  overflow: visible;
-  width: auto;
+	overflow: visible;
+	width: auto;
 }
 
 img {
-  border-color: #000;
-  border-style: solid;
+	border-color: #000;
+	border-style: solid;
 }
 
 .justprint {
-  display: none;
+	display: none;
 }
 
 /*# sourceMappingURL=output.css.map */

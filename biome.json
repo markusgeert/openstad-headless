@@ -1,7 +1,12 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"files": {
-		"ignore": ["**/.next", "**/dist", "**/dist-dts", "**/node_modules"]
+		"ignore": ["**/.next", "**/dist", "**/dist-dts", "**/node_modules", "**/.turbo", "**/apos-build"]
+	},
+    "vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true
 	},
 	"linter": {
 		"rules": {
@@ -17,14 +22,14 @@
 			},
 			"style": {
 				"noParameterAssign": "off",
-                "noCommaOperator": "off"
+				"noCommaOperator": "off"
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off",
 				"useButtonType": "off",
 				"noLabelWithoutControl": "off",
-                "useIframeTitle": "off",
-                "useValidAnchor": "off"
+				"useIframeTitle": "off",
+				"useValidAnchor": "off"
 			},
 			"performance": {
 				"noDelete": "off"

@@ -1,135 +1,131 @@
-'use strict';
-
-const { DataTypes } = require('sequelize');
-const sanitize = require('../utils/sanitize')
+const { DataTypes } = require("sequelize");
+const sanitize = require("../utils/sanitize");
 
 module.exports = (db, sequelize, Sequelize) => {
+	const User = sequelize.define(
+		"user",
+		{
+			name: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("name", value || null);
+				},
+			},
 
-  let User = sequelize.define('user', {
+			email: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("email", value || null);
+				},
+			},
 
-    name: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('name', value || null);
-      },
-    },
+			phoneNumber: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("phoneNumber", value || null);
+				},
+			},
 
-    email: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('email', value || null);
-      },
-    },
+			hashedPhoneNumber: {
+				type: DataTypes.STRING,
+			},
 
-    phoneNumber: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('phoneNumber', value || null);
-      },
-    },
+			phoneNumberConfirmed: {
+				type: DataTypes.BOOLEAN,
+				default: 0,
+			},
 
-    hashedPhoneNumber: {
-      type: DataTypes.STRING,
-    },
+			streetName: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("streetName", value || null);
+				},
+			},
 
-    phoneNumberConfirmed: {
-      type: DataTypes.BOOLEAN,
-      default: 0,
-    },
+			houseNumber: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("houseNumber", value || null);
+				},
+			},
 
-    streetName: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('streetName', value || null);
-      },
-    },
+			city: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("city", value || null);
+				},
+			},
 
-    houseNumber: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('houseNumber', value || null);
-      },
-    },
+			suffix: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("suffix", value || null);
+				},
+			},
 
-    city: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('city', value || null);
-      },
-    },
+			postcode: {
+				type: DataTypes.STRING,
+				set: function (value) {
+					value = sanitize.noTags(value);
+					this.setDataValue("postcode", value || null);
+				},
+			},
 
-    suffix: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('suffix', value || null);
-      },
-    },
+			password: {
+				type: DataTypes.STRING,
+			},
 
-    postcode: {
-      type: DataTypes.STRING,
-      set: function (value) {
-        value = sanitize.noTags(value);
-        this.setDataValue('postcode', value || null);
-      },
-    },
+			resetPasswordToken: {
+				type: DataTypes.STRING,
+			},
 
-    password: {
-      type: DataTypes.STRING,
-    },
+			twoFactorToken: {
+				type: DataTypes.STRING,
+			},
 
-    resetPasswordToken: {
-      type: DataTypes.STRING,
-    },
+			twoFactorConfigured: {
+				type: DataTypes.INTEGER,
+			},
+		},
+		{
+			tableName: "users",
+		},
+	);
 
-    twoFactorToken: {
-      type: DataTypes.STRING,
-    },
+	User.associate = function (models) {
+		this.hasMany(db.UserRole, { as: "roles" });
+	};
 
-    twoFactorConfigured: {
-      type: DataTypes.INTEGER,
-    },
+	User.prototype.getRoleForClient = function (clientId) {
+		return db.UserRole.scope("includeClient", "includeRole")
+			.findAll({
+				where: { userId: this.id },
+			})
+			.then((userRoles) => {
+				const userRole = userRoles.find(
+					(userRole) =>
+						userRole.client.clientId === clientId ||
+						userRole.client.id === clientId,
+				);
+				const role = userRole?.role;
+				return role?.name;
+			});
+	};
 
-  }, {
-    tableName: 'users',
-  });
+	User.scopes = function scopes() {
+		return {
+			includeUserRoles: {
+				include: "roles",
+			},
+		};
+	};
 
-  User.associate = function (models) {
-    this.hasMany(db.UserRole, { as: 'roles' });
-  }
-
-  User.prototype.getRoleForClient = function(clientId) {
-    let self = this;
-    return db.UserRole
-      .scope('includeClient', 'includeRole')
-      .findAll({
-        where: { userId: self.id }
-      })
-      .then(userRoles => {
-        let userRole = userRoles.find( userRole => userRole.client.clientId == clientId || userRole.client.id == clientId );
-        let role = userRole?.role;
-        return role?.name
-      })
-  }
-
-  User.scopes = function scopes() {
-
-    return {
-
-      includeUserRoles: {
-        include: 'roles',
-      }
-
-    }
-  }
-
-  return User;
-
-}
-
+	return User;
+};

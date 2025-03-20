@@ -1,9 +1,7 @@
-'use strict';
+const supertest = require("supertest");
+const app = require("../../app-init");
 
-const supertest = require('supertest');
-const app = require('../../app-init');
-
-const db = require('../../knex/knex');
+const db = require("../../knex/knex");
 
 let agent;
 
@@ -12,45 +10,45 @@ let agent;
  * This follows the testing guide roughly from
  * https://github.com/FrankHassanabad/Oauth2orizeRecipes/wiki/OAuth2orize-Authorization-Server-Tests
  */
-describe('Grant Type Client', () => {
+describe("Grant Type Client", () => {
+	beforeAll(async () => {
+		process.env.ENVIRONMENT = "test";
+		agent = supertest.agent(app);
 
-  beforeAll(async () => {
+		await db.migrate.latest();
 
-    process.env.ENVIRONMENT = 'test';
-    agent = supertest.agent(app);
+		await db.raw(
+			"insert into clients (`id`, `name`, `redirectUrl`, `description`, `clientId`, `clientSecret`, `authTypes`) values(1, 'test', 'test', 'test', 'trustedClient', 'ssh-otherpassword', '[\"UniqueCode\"]');",
+		);
+	});
 
-    await db.migrate.latest();
+	it("should able to login with basic auth", async (done) => {
+		const clientId = "trustedClient";
+		const clientSecret = "ssh-otherpassword";
 
-    await db.raw("insert into clients (`id`, `name`, `redirectUrl`, `description`, `clientId`, `clientSecret`, `authTypes`) values(1, 'test', 'test', 'test', 'trustedClient', 'ssh-otherpassword', '[\"UniqueCode\"]');");
+		const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString(
+			"base64",
+		);
 
-  });
+		agent
+			.get("/api/admin/users")
+			.set("Content-Type", "application/json")
+			.set("Authorization", `Basic ${basicAuth}`)
+			.expect(200, done);
+	});
 
+	it("should get all users", (done) => {
+		const clientId = "trustedClient";
+		const clientSecret = "ssh-otherpassword";
 
-  it('should able to login with basic auth', async (done) => {
+		const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString(
+			"base64",
+		);
 
-    const clientId = 'trustedClient';
-    const clientSecret = 'ssh-otherpassword';
-
-    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
-    agent.get('/api/admin/users')
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Basic ${basicAuth}`)
-      .expect(200, done);
-
-  });
-
-  it('should get all users', (done) => {
-    const clientId = 'trustedClient';
-    const clientSecret = 'ssh-otherpassword';
-
-    const basicAuth = Buffer.from(`${clientId}:${clientSecret}`).toString('base64');
-
-    agent.get('/api/admin/users')
-      .set('Content-Type', 'application/json')
-      .set('Authorization', `Basic ${basicAuth}`)
-      .expect(200, done)
-
-  });
-
+		agent
+			.get("/api/admin/users")
+			.set("Content-Type", "application/json")
+			.set("Authorization", `Basic ${basicAuth}`)
+			.expect(200, done);
+	});
 });

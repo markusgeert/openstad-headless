@@ -1,359 +1,357 @@
 // modules/@apostrophecms/global/index.js
-const fs = require('fs');
-const fields = require('./lib/fields');
-const arrangeFields = require('./lib/arrangeFields');
+const fs = require("node:fs");
+const fields = require("./lib/fields");
+const arrangeFields = require("./lib/arrangeFields");
 
 module.exports = {
-  options: {
-    deferWidgetLoading: true,
-  },
-  init: function (self) {
-    //   console.log('self.data', self.data);
-    //   console.log('self.apos.data', self.apos.data);
-  },
+	options: {
+		deferWidgetLoading: true,
+	},
+	init: (self) => {
+		//   console.log('self.data', self.data);
+		//   console.log('self.apos.data', self.apos.data);
+	},
 
-  middleware(self) {
-    return {
-      async enrich(req, res, next) {
-        req.data.projectConfig = {
-          organisationName: 'Amsterdam',
-        };
-        req.data.global.projectName = 'Openstad';
-        req.project = self.apos.options.project;
-        req.data.global.projectTitle = req.project.title;
-        req.data.prefix = self.apos.options.prefix || '';
+	middleware(self) {
+		return {
+			async enrich(req, res, next) {
+				req.data.projectConfig = {
+					organisationName: "Amsterdam",
+				};
+				req.data.global.projectName = "Openstad";
+				req.project = self.apos.options.project;
+				req.data.global.projectTitle = req.project.title;
+				req.data.prefix = self.apos.options.prefix || "";
 
-        // system defaults
-        let cmsDefaults = process.env.CMS_DEFAULTS;
-        try {
-          if (typeof cmsDefaults == 'string')
-            cmsDefaults = JSON.parse(cmsDefaults);
-        } catch (err) {}
+				// system defaults
+				let cmsDefaults = process.env.CMS_DEFAULTS;
+				try {
+					if (typeof cmsDefaults === "string")
+						cmsDefaults = JSON.parse(cmsDefaults);
+				} catch (err) {}
 
-        // analytics
-        if (req.data.global.analyticsType == 'serverdefault') {
-          req.data.global.analyticsType = cmsDefaults.analyticsType;
-          req.data.global.analyticsIdentifier = cmsDefaults.analyticsIdentifier;
-          req.data.global.analyticsCodeBlock = cmsDefaults.analyticsCodeBlock;
-        }
+				// analytics
+				if (req.data.global.analyticsType === "serverdefault") {
+					req.data.global.analyticsType = cmsDefaults.analyticsType;
+					req.data.global.analyticsIdentifier = cmsDefaults.analyticsIdentifier;
+					req.data.global.analyticsCodeBlock = cmsDefaults.analyticsCodeBlock;
+				}
 
-        // cookie consent
-        req.data.global.cookieConsentDefined = req.data.global.useCookieWarning
-          ? req.cookies &&
-            typeof req.cookies['openstad-cookie-consent'] != 'undefined'
-          : undefined;
-        req.data.global.cookieConsent = req.data.global.useCookieWarning
-          ? req.cookies && req.cookies['openstad-cookie-consent'] == 1
-          : true;
+				// cookie consent
+				req.data.global.cookieConsentDefined = req.data.global.useCookieWarning
+					? req.cookies &&
+						typeof req.cookies["openstad-cookie-consent"] !== "undefined"
+					: undefined;
+				req.data.global.cookieConsent = req.data.global.useCookieWarning
+					? req.cookies && req.cookies["openstad-cookie-consent"] === 1
+					: true;
 
-        return next();
-      },
-    };
-  },
+				return next();
+			},
+		};
+	},
 
-  fields: {
-    add: {
+	fields: {
+		add: {
+			siteTitle: {
+				type: "string",
+				label: "Site titel",
+			},
 
-      siteTitle: {
-        type: 'string',
-        label: 'Site titel',
-      },
+			hideSiteTitle: {
+				type: "boolean",
+				label: "Verberg site titel",
+				def: true,
+			},
 
-      hideSiteTitle: {
-        type: 'boolean',
-        label: 'Verberg site titel',
-        def: true,
-      },
+			siteLogo: {
+				type: "attachment",
+				label: "Site logo",
+				fileGroup: "images",
+			},
 
-      siteLogo: {
-        type: 'attachment',
-        label: 'Site logo',
-        fileGroup: 'images',
-      },
+			logoAltText: {
+				type: "string",
+				label: "Logo alt text",
+				default: "Afbeelding van het logo, link naar de homepage",
+			},
 
-      logoAltText: {
-        type: 'string',
-        label: 'Logo alt text',
-        default: 'Afbeelding van het logo, link naar de homepage',
-      },
+			ctaButtons: {
+				label: "Header buttons",
+				type: "array",
+				draggable: true,
+				fields: {
+					add: {
+						label: {
+							label: "Label",
+							type: "string",
+						},
+						href: {
+							label: "Url",
+							type: "string",
+						},
+						appearance: {
+							type: "select",
+							label: "Variant",
+							def: "primary-action",
+							choices: [
+								{
+									label: "primary-action",
+									value: "primary-action",
+								},
+								{
+									label: "secondary-action",
+									value: "secondary-action",
+								},
+							],
+						},
+					},
+				},
+			},
 
-      ctaButtons: {
-        label: 'Header buttons',
-        type: 'array',
-        draggable: true,
-        fields: {
-          add: {
-            label: {
-              label: 'Label',
-              type: 'string',
-            },
-            href: {
-              label: 'Url',
-              type: 'string',
-            },
-            appearance: {
-              type: 'select',
-              label: 'Variant',
-              def: 'primary-action',
-              choices: [
-                {
-                  label: 'primary-action',
-                  value: 'primary-action',
-                },
-                {
-                  label: 'secondary-action',
-                  value: 'secondary-action',
-                },
-              ],
-            },
-          },
-        },
-      },
+			topMenuButtons: {
+				label: "Topmenu buttons",
+				type: "array",
+				draggable: true,
+				fields: {
+					add: {
+						label: {
+							label: "Label",
+							type: "string",
+						},
+						href: {
+							label: "Url",
+							type: "string",
+						},
+					},
+				},
+			},
 
-      topMenuButtons: {
-        label: 'Topmenu buttons',
-        type: 'array',
-        draggable: true,
-        fields: {
-          add: {
-            label: {
-              label: 'Label',
-              type: 'string',
-            },
-            href: {
-              label: 'Url',
-              type: 'string',
-            },
-          },
-        },
-      },
+			showLoginButton: {
+				type: "boolean",
+				def: "false",
+				label: "Toon login knop",
+			},
 
-      showLoginButton: {
-        type: 'boolean',
-        def: 'false',
-        label: 'Toon login knop',
-      },
+			loginButtonLabel: {
+				label: "Login knop tekst",
+				def: "Login",
+				type: "string",
+				if: {
+					showLoginButton: true,
+				},
+			},
 
-      loginButtonLabel: {
-        label: 'Login knop tekst',
-        def: 'Login',
-        type: 'string',
-        if: {
-          showLoginButton: true,
-        },
-      },
+			showAccountButton: {
+				type: "boolean",
+				def: "false",
+				label: "Toon 'mijn account' knop",
+			},
 
-      showAccountButton: {
-        type: 'boolean',
-        def: 'false',
-        label: 'Toon \'mijn account\' knop',
-      },
+			accountButtonHref: {
+				label: "Link naar 'mijn account' pagina",
+				def: "/account",
+				type: "string",
+				if: {
+					showAccountButton: true,
+				},
+			},
 
-      accountButtonHref: {
-        label: 'Link naar \'mijn account\' pagina',
-        def: '/account',
-        type: 'string',
-        if: {
-          showAccountButton: true,
-        },
-      },
+			accountButtonLabel: {
+				label: "'Mijn account' knop tekst",
+				def: "Mijn account",
+				type: "string",
+				help: "[[name]] wordt vervangen door de naam van de gebruiker",
+				if: {
+					showAccountButton: true,
+				},
+			},
 
-      accountButtonLabel: {
-        label: '\'Mijn account\' knop tekst',
-        def: 'Mijn account',
-        type: 'string',
-        help: '[[name]] wordt vervangen door de naam van de gebruiker',
-        if: {
-          showAccountButton: true,
-        },
-      },
+			logoutButtonLabel: {
+				label: "Loguit knop tekst",
+				def: "Logout",
+				help: "[[name]] wordt vervangen door de naam van de gebruiker",
+				type: "string",
+			},
 
-      logoutButtonLabel: {
-        label: 'Loguit knop tekst',
-        def: 'Logout',
-        help: '[[name]] wordt vervangen door de naam van de gebruiker',
-        type: 'string',
-      },
+			favicon: {
+				type: "attachment",
+				label: "Favicon",
+				fileGroup: "icons",
+			},
+			customCssLink: {
+				type: "array",
+				label: "URL voor CSS imports (optioneel)",
+				inline: true,
+				fields: {
+					add: {
+						item: {
+							type: "string",
+							label: "URL voor CSS imports (optioneel)",
+						},
+					},
+				},
+			},
+			compactMenu: {
+				type: "boolean",
+				label: "Compacte weergave van het hoofdmenu.",
+				def: false,
+			},
+			analyticsType: {
+				type: "select",
+				permission: "admin",
+				label: "Analytics type",
+				def: "none",
+				choices: [
+					{
+						value: "none",
+						label: "No analytics",
+					},
+					{
+						value: "google-analytics",
+						label: "Google Analytics (with a property like G-xxxxx)",
+						showFields: ["analyticsIdentifier"],
+					},
+					{
+						value: "custom",
+						label: "Custom: use a custom codeblock",
+						showFields: ["analyticsCodeBlock"],
+					},
+					{
+						value: "serverdefault",
+						label: "Use the server default settings",
+					},
+				],
+			},
 
-      favicon: {
-        type: 'attachment',
-        label: 'Favicon',
-        fileGroup: 'icons',
-      },
-      // cssExtras: {
-      //   type: 'string',
-      //   textarea: true,
-      //   def: '#logo-image {\n  max-height: 50px;\n}',
-      //   label: 'Extra CSS',
-      // },
-      customCssLink: {
-        type: 'string',
-        label: 'URL voor CSS imports (optioneel)',
-      },
-      customCssLink: {
-        type: 'array',
-        label: 'URL voor CSS imports (optioneel)',
-        inline: true,
-        fields: {
-          add: {
-            item: {
-              type: 'string',
-              label: 'URL voor CSS imports (optioneel)',
-            },
-          },
-        },
-      },
-      compactMenu: {
-        type: 'boolean',
-        label: 'Compacte weergave van het hoofdmenu.',
-        def: false,
-      },
-      analyticsType: {
-        type: 'select',
-        permission: 'admin',
-        label: 'Analytics type',
-        def: 'none',
-        choices: [
-          {
-            value: 'none',
-            label: 'No analytics',
-          },
-          {
-            value: 'google-analytics',
-            label: 'Google Analytics (with a property like G-xxxxx)',
-            showFields: ['analyticsIdentifier'],
-          },
-          {
-            value: 'custom',
-            label: 'Custom: use a custom codeblock',
-            showFields: ['analyticsCodeBlock'],
-          },
-          {
-            value: 'serverdefault',
-            label: 'Use the server default settings',
-          },
-        ],
-      },
+			useCookieWarning: {
+				type: "boolean",
+				label: "Use a cookie warning",
+				def: false,
+				choices: [
+					{
+						label: "Yes",
+						value: true,
+						showFields: ["cookiePageLink"],
+					},
+					{
+						label: "No",
+						value: false,
+					},
+				],
+			},
 
-      useCookieWarning: {
-        type: 'boolean',
-        label: 'Use a cookie warning',
-        def: false,
-        choices: [
-          {
-            label: 'Yes',
-            value: true,
-            showFields: ['cookiePageLink'],
-          },
-          {
-            label: 'No',
-            value: false,
-          },
-        ],
-      },
+			cookiePageLink: {
+				type: "string",
+				label: "Link to 'about cookies' page",
+				def: "/about-cookies",
+				required: true,
+				if: {
+					useCookieWarning: true,
+				},
+			},
 
-      cookiePageLink: {
-        type: 'string',
-        label: "Link to 'about cookies' page",
-        def: '/about-cookies',
-        required: true,
-        if: {
-          useCookieWarning: true,
-        },
-      },
+			analyticsIdentifier: {
+				type: "string",
+				label: "Google Analytics Property ID (like G-xxxxx)",
+				if: {
+					analyticsType: "google-analytics",
+				},
+			},
 
-      analyticsIdentifier: {
-        type: 'string',
-        label: 'Google Analytics Property ID (like G-xxxxx)',
-        if: {
-          analyticsType: 'google-analytics',
-        },
-      },
+			analyticsCodeBlock: {
+				type: "string",
+				permission: "admin",
+				label: "Custom code",
+				if: {
+					analyticsType: "custom",
+				},
+			},
 
-      analyticsCodeBlock: {
-        type: 'string',
-        permission: 'admin',
-        label: 'Custom code',
-        if: {
-          analyticsType: 'custom',
-        },
-      },
+			footerlinks: {
+				type: "array",
+				label: "Footer links",
+				inline: true,
+				fields: {
+					add: {
+						title: {
+							label: "Column naam",
+							type: "string",
+						},
+						intro: {
+							label: "Intro tekst",
+							type: "string",
+						},
+						items: {
+							type: "array",
+							label: "Links",
+							fields: {
+								add: {
+									label: {
+										label: "Link tekst",
+										type: "string",
+									},
+									url: {
+										label: "Link url",
+										type: "string",
+									},
+								},
+							},
+						},
+					},
+				},
+			},
+			errorText: {
+				type: "area",
+				label: "Creeër een pagina die getoond wordt bij een 404 error",
+				options: {
+					widgets: {
+						"openstad-section": {},
+					},
+				},
+			},
+		},
 
-      footerlinks: {
-        type: 'array',
-        label: 'Footer links',
-        inline: true,
-        fields: {
-          add: {
-            title: {
-              label: 'Column naam',
-              type: 'string',
-            },
-            intro: {
-              label: 'Intro tekst',
-              type: 'string',
-            },
-            items: {
-              type: 'array',
-              label: 'Links',
-              fields: {
-                add: {
-                  label: {
-                    label: 'Link tekst',
-                    type: 'string',
-                  },
-                  url: {
-                    label: 'Link url',
-                    type: 'string',
-                  },
-                },
-              },
-            },
-          },
-        },
-      },
-      errorText: {
-        type: 'area',
-        label: 'Creeër een pagina die getoond wordt bij een 404 error',
-        options: {
-          widgets: {
-            'openstad-section': {},
-          }
-        }
-      },
-    },
-
-    group: {
-      basics: {
-        label: 'Algemene instellingen',
-        fields: ['siteTitle', 'hideSiteTitle',  'siteLogo', 'logoAltText'],
-      },
-      css: {
-        label: 'Vormgeving',
-        fields: ['customCssLink', 'favicon', 'compactMenu'],
-      },
-      login: {
-        label: 'Menu instellingen',
-        fields: ['showLoginButton', 'loginButtonLabel', 'showAccountButton', 'accountButtonHref', 'accountButtonLabel', 'logoutButtonLabel', 'ctaButtons', 'topMenuButtons'],
-      },
-      cookies: {
-        label: 'Cookie instellingen',
-        fields: ['useCookieWarning', 'cookiePageLink'],
-      },
-      analitics: {
-        label: 'Analytics',
-        fields: ['analyticsType', 'analyticsIdentifier', 'analyticsCodeBlock'],
-      },
-      footer: {
-        label: 'Footer',
-        fields: ['footerlinks'],
-      },
-      errorPage: {
-        label: '404 pagina',
-        fields: ['errorText'],
-      },
-    },
-  },
+		group: {
+			basics: {
+				label: "Algemene instellingen",
+				fields: ["siteTitle", "hideSiteTitle", "siteLogo", "logoAltText"],
+			},
+			css: {
+				label: "Vormgeving",
+				fields: ["customCssLink", "favicon", "compactMenu"],
+			},
+			login: {
+				label: "Menu instellingen",
+				fields: [
+					"showLoginButton",
+					"loginButtonLabel",
+					"showAccountButton",
+					"accountButtonHref",
+					"accountButtonLabel",
+					"logoutButtonLabel",
+					"ctaButtons",
+					"topMenuButtons",
+				],
+			},
+			cookies: {
+				label: "Cookie instellingen",
+				fields: ["useCookieWarning", "cookiePageLink"],
+			},
+			analitics: {
+				label: "Analytics",
+				fields: ["analyticsType", "analyticsIdentifier", "analyticsCodeBlock"],
+			},
+			footer: {
+				label: "Footer",
+				fields: ["footerlinks"],
+			},
+			errorPage: {
+				label: "404 pagina",
+				fields: ["errorText"],
+			},
+		},
+	},
 };
 
 /*

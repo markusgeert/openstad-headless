@@ -1,11 +1,10 @@
 export default {
-  fetch: async function({ projectId, userId }) {
+	fetch: async function ({ projectId, userId }) {
+		const url = `/api/project/${projectId}/user/${userId}/activity?includeOtherProjects=1`;
+		const headers = {
+			"Content-Type": "application/json",
+		};
 
-    let url = `/api/project/${projectId}/user/${userId}/activity?includeOtherProjects=1`;
-    let headers = {
-      'Content-Type': 'application/json'
-    };
-
-    return this.fetch(url, { headers });
-  },
-}
+		return this.fetch(url, { headers });
+	},
+};

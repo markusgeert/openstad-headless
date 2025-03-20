@@ -1,27 +1,23 @@
-const { spawn } = require('child_process');
+const { spawn } = require("node:child_process");
 
 module.exports = function execute(command, args, options) {
+	return new Promise((resolve, reject) => {
+		const child = spawn(command, args, options);
 
-  return new Promise((resolve, reject) => {
+		child.on("error", (err) => {
+			reject(err);
+		});
 
-    const child = spawn(command, args, options);
+		child.stdout.on("data", (chunk) => {
+			console.log(`${chunk}`.replace(/(?:\r|\n)+$/, ""));
+		});
 
-    child.on('error', function(err) {
-      reject(err)
-    });
+		child.stderr.on("data", (chunk) => {
+			console.log(`${chunk}`.replace(/(?:\r|\n)+$/, ""));
+		});
 
-    child.stdout.on('data', (chunk) => {
-      console.log(`${chunk}`.replace(/(?:\r|\n)+$/, ''));
-    });
-
-    child.stderr.on('data', (chunk) => {
-      console.log(`${chunk}`.replace(/(?:\r|\n)+$/, ''));
-    });
-
-    child.on('close', (code) => {
-      resolve();
-    });
-
-  });
-
-}
+		child.on("close", (code) => {
+			resolve();
+		});
+	});
+};

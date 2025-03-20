@@ -1,31 +1,28 @@
-'use strict';
-
-const { DataTypes } = require('sequelize');
+const { DataTypes } = require("sequelize");
 
 module.exports = (db, sequelize, Sequelize) => {
+	const LoginToken = sequelize.define(
+		"login_token",
+		{
+			token: {
+				type: DataTypes.STRING,
+				allowNull: false,
+			},
 
-  let LoginToken = sequelize.define('login_token', {
+			userId: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
 
-    token: {
-      type: DataTypes.STRING,
-      allowNull: false,
-    },
+			valid: {
+				type: DataTypes.INTEGER,
+				allowNull: false,
+			},
+		},
+		{
+			tableName: "login_tokens",
+		},
+	);
 
-    userId: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
-    valid: {
-      type: DataTypes.INTEGER,
-      allowNull: false,
-    },
-
-  }, {
-    tableName: 'login_tokens',
-  });
-
-  return LoginToken;
-
-}
-
+	return LoginToken;
+};

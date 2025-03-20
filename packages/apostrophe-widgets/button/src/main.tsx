@@ -1,12 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import {Button} from './button.tsx'
+import React from "react";
+import ReactDOM from "react-dom/client";
+import { Button } from "./button.tsx";
 
-ReactDOM.createRoot(document.getElementById('root')!).render(
-  <React.StrictMode>
-    <Button 
-        direction="row"
-        buttons={`[
+ReactDOM.createRoot(document.getElementById("root")!).render(
+	<React.StrictMode>
+		<Button
+			direction="row"
+			buttons={`[
           {
             "label": "test label 1",
             "href": "#",
@@ -19,6 +19,7 @@ ReactDOM.createRoot(document.getElementById('root')!).render(
             "appearance": "secondary-action-button",
             "target": "_self"
           }
-        ]`}></Button>
-  </React.StrictMode>,
-)
+        ]`}
+		/>
+	</React.StrictMode>,
+);

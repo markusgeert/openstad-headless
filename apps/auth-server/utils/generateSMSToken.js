@@ -1,11 +1,11 @@
 module.exports = () => {
-  var text = "";
-  var chars = "12346798abcdefghijkmnopqrstuvwxyz";
-  var even = false;
+	let text = "";
+	const chars = "12346798abcdefghijkmnopqrstuvwxyz";
+	const even = false;
 
-  for (var i = 0; i < 5; i++) {
-    text += chars.charAt(Math.floor(Math.random() * chars.length));
-  }
+	for (let i = 0; i < 5; i++) {
+		text += chars.charAt(Math.floor(Math.random() * chars.length));
+	}
 
-  return text;
-}
+	return text;
+};
