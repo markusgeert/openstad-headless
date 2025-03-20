@@ -1,5 +1,3 @@
-const db = require("../db");
-
 module.exports = function mapUserData({ map = {}, user = {} }) {
 	if (typeof map === "string") {
 		try {
@@ -52,7 +50,7 @@ module.exports = function mapUserData({ map = {}, user = {} }) {
 
 		if (typeof propMap === "string") {
 			try {
-				// function?
+				/* biome-ignore lint/security/noGlobalEval: You can define a mapping fn as a string in the json config. Parsing this requires eval... */
 				propMap = eval(propMap);
 			} catch (err) {}
 		}

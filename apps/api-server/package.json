@@ -3,14 +3,11 @@
 	"version": "1.0.0",
 	"description": "OpenStad API server",
 	"main": "server.js",
+	"license": "ISC",
 	"scripts": {
 		"start": "node server.js",
 		"predev": "./scripts/predev.sh",
 		"dev": "node nodemon-watch-server.js",
-		"lint": "node ./scripts/lint",
-		"lint:bare": "npx eslint",
-		"prettier": "node ./scripts/prettier",
-		"prettier:bare": "npx prettier",
 		"test": "npm run test:unit",
 		"test:unit": "jest --no-cache --config jest.config.js",
 		"test:unit:watch": "jest --watch --no-cache",
@@ -88,18 +85,9 @@
 	},
 	"devDependencies": {
 		"@types/cron": "^2.4.0",
-		"eslint": "^7.32.0",
-		"eslint-config-airbnb": "^18.2.1",
-		"eslint-config-prettier": "^8.5.0",
-		"eslint-plugin-import": "^2.26.0",
-		"eslint-plugin-prettier": "^4.0.0",
-		"eslint-plugin-sonarjs": "^0.10.0",
 		"jest": "^27.5.1",
 		"npm-commands": "^1.1.0",
-		"prettier": "^2.6.2",
 		"sequelize-mock": "^0.10.2",
 		"supertest": "^4.0.2"
-	},
-	"author": "",
-	"license": "ISC"
+	}
 }

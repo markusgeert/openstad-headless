@@ -6,7 +6,6 @@
 	"scripts": {
 		"dev": "vite",
 		"build": "tsc && vite build --config vite.config.base-map.ts && vite build --config vite.config.editor-map.ts && vite build --config vite.config.resource-detail-map.ts && vite build --config vite.config.resource-overview-map.ts",
-		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives",
 		"preview": "vite preview"
 	},
 	"dependencies": {
@@ -25,17 +24,13 @@
 		"turf": "^3.0.14"
 	},
 	"devDependencies": {
-		"@next/eslint-plugin-next": "^14.2.3",
 		"@types/leaflet": "^1.9.8",
 		"@types/leaflet.markercluster": "^1.5.4",
 		"@types/react": "^18.2.78",
 		"@types/react-dom": "^18.2.7",
 		"@types/react-leaflet-markercluster": "^3.0.4",
 		"@types/turf": "^3.5.32",
-		"@typescript-eslint/eslint-plugin": "^6.0.0",
-		"@typescript-eslint/parser": "^6.0.0",
 		"@vitejs/plugin-react": "^4.0.3",
-		"@openstad-headless/eslint-config": "*",
 		"typescript": "^5.0.2",
 		"vite": "^4.4.5"
 	}

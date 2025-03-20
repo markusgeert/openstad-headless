@@ -1,4 +1,3 @@
-const { execSync, exec } = require("node:child_process");
 const getWidgetSettings = require("../src/routes/widget/widget-settings");
 const widgetDefinitions = getWidgetSettings();
 

@@ -80,8 +80,7 @@
 				"noAccumulatingSpread": "off"
 			},
 			"security": {
-				"noDangerouslySetInnerHtml": "off",
-				"noGlobalEval": "off"
+				"noDangerouslySetInnerHtml": "off"
 			}
 		}
 	}

@@ -1,11 +1,7 @@
 const nodemon = require("nodemon");
-const { execSync, exec } = require("node:child_process");
+const { execSync } = require("node:child_process");
 
-const {
-	buildPackage,
-	dependencyPackages,
-	buildPackageByDirectory,
-} = require("./scripts/lib/build-package");
+const { buildPackageByDirectory } = require("./scripts/lib/build-package");
 const getHeadlessDependencyTree = require("./scripts/get-headless-dependency-tree");
 const { resolve } = require("node:path");
 const { hashElement } = require("folder-hash");
