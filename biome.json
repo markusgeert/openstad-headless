@@ -1,9 +1,18 @@
 {
 	"$schema": "https://biomejs.dev/schemas/1.9.4/schema.json",
 	"files": {
-		"ignore": ["**/.next", "**/dist", "**/dist-dts", "**/node_modules", "**/.turbo", "**/apos-build"]
+		"ignore": [
+			"**/.next",
+			"**/dist",
+			"**/dist-dts",
+			"**/node_modules",
+			"**/.turbo",
+			"**/apos-build",
+			"**/apos-frontend",
+			"apps/cms-server/modules/*"
+		]
 	},
-    "vcs": {
+	"vcs": {
 		"enabled": true,
 		"clientKind": "git",
 		"useIgnoreFile": true

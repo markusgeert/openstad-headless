@@ -49,7 +49,7 @@ function Form({
 	fields.forEach((field) => {
 		if (field.fieldKey) {
 			initialFormValues[field.fieldKey] =
-                // @ts-expect-error
+				// @ts-expect-error
 				typeof field.defaultValue !== "undefined" ? field.defaultValue : "";
 			initialFormValues[field.fieldKey] =
 				field.type === "map" ? {} : initialFormValues[field.fieldKey];
