@@ -5,7 +5,9 @@
 			"inputs": [
 				"**/*.ts",
 				"**/*.tsx",
-                "biome.json",
+				"**/*.json",
+				"**/*.html",
+				"**/*.css",
 				"!**/node_modules",
 				"!**/dist",
 				"!**/dist-dts",
@@ -18,7 +20,9 @@
 			"inputs": [
 				"**/*.ts",
 				"**/*.tsx",
-                "biome.json",
+				"**/*.json",
+				"**/*.html",
+				"**/*.css",
 				"!**/node_modules",
 				"!**/dist",
 				"!**/dist-dts",
