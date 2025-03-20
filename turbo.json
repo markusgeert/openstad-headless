@@ -5,6 +5,7 @@
 			"inputs": [
 				"**/*.ts",
 				"**/*.tsx",
+                "biome.json",
 				"!**/node_modules",
 				"!**/dist",
 				"!**/dist-dts",
@@ -17,6 +18,7 @@
 			"inputs": [
 				"**/*.ts",
 				"**/*.tsx",
+                "biome.json",
 				"!**/node_modules",
 				"!**/dist",
 				"!**/dist-dts",
