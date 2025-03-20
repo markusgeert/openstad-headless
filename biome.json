@@ -9,7 +9,8 @@
 			"**/.turbo",
 			"**/apos-build",
 			"**/apos-frontend",
-			"apps/cms-server/modules/*"
+			"apps/cms-server/modules/*",
+			"apps/auth-server/public/**/*.css"
 		]
 	},
 	"vcs": {
@@ -26,24 +27,42 @@
 				"noExplicitAny": "off",
 				"noArrayIndexKey": "off",
 				"noAssignInExpressions": "off",
-				"noShadowRestrictedNames": "off"
+				"noShadowRestrictedNames": "off",
+				"noPrototypeBuiltins": "off",
+				"noImplicitAnyLet": "off",
+				"noGlobalAssign": "off",
+				"noShorthandPropertyOverrides": "off",
+				"noControlCharactersInRegex": "off",
+				"noSelfCompare": "off",
+				"noEmptyBlock": "off",
+				"noThenProperty": "off",
+				"noFunctionAssign": "off"
 			},
 			"correctness": {
 				"useExhaustiveDependencies": "off",
 				"noUnreachable": "off",
 				"noUnknownProperty": "off",
-				"noConstantCondition": "off"
+				"noConstantCondition": "off",
+				"useJsxKeyInIterable": "off",
+				"noInvalidUseBeforeDeclaration": "off",
+				"noUnsafeOptionalChaining": "off",
+				"noUnsafeFinally": "off",
+				"noEmptyPattern": "off",
+				"noChildrenProp": "off",
+				"noSelfAssign": "off"
 			},
 			"complexity": {
 				"noForEach": "off",
 				"noBannedTypes": "off",
-				"noUselessFragments": "off"
+				"noUselessFragments": "off",
+				"noUselessThisAlias": "off"
 			},
 			"style": {
 				"noParameterAssign": "off",
 				"noCommaOperator": "off",
 				"noArguments": "off",
-				"noNonNullAssertion": "off"
+				"noNonNullAssertion": "off",
+				"useConst": "off"
 			},
 			"a11y": {
 				"useKeyWithClickEvents": "off",
@@ -52,14 +71,17 @@
 				"useIframeTitle": "off",
 				"useValidAnchor": "off",
 				"useSemanticElements": "off",
-				"useGenericFontNames": "off"
+				"useGenericFontNames": "off",
+				"noSvgWithoutTitle": "off",
+				"useAltText": "off"
 			},
 			"performance": {
 				"noDelete": "off",
 				"noAccumulatingSpread": "off"
 			},
 			"security": {
-				"noDangerouslySetInnerHtml": "warn"
+				"noDangerouslySetInnerHtml": "off",
+				"noGlobalEval": "off"
 			}
 		}
 	}

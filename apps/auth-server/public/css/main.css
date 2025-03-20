@@ -103,7 +103,7 @@ code,
 kbd,
 pre,
 samp {
-	font-family: monospace, monospace;
+	font-family: monospace;
 	font-size: 1em;
 }
 button,
@@ -2678,6 +2678,7 @@ textarea.form-control {
 input[type="search"] {
 	-webkit-appearance: none;
 }
+/* biome-ignore lint/correctness/noUnknownMediaFeatureName: this is a valid name */
 @media screen and (-webkit-min-device-pixel-ratio: 0) {
 	input[type="date"].form-control,
 	input[type="time"].form-control,

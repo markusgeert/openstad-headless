@@ -332,7 +332,7 @@ module.exports = async function seed(config, db) {
 			],
 			location: {
 				lat: 52.3710476 + (Math.random() * 0.03 - 0.015),
-				lng: 4.9005494 + (Math.random() * 0.03 - 015),
+				lng: 4.9005494 + (Math.random() * 0.03 - 15),
 			},
 			budget: 6000,
 			startDate: db.sequelize.fn("now"),
@@ -352,7 +352,7 @@ module.exports = async function seed(config, db) {
 			],
 			location: {
 				lat: 52.3710476 + (Math.random() * 0.03 - 0.015),
-				lng: 4.9005494 + (Math.random() * 0.03 - 015),
+				lng: 4.9005494 + (Math.random() * 0.03 - 15),
 			},
 			budget: 5000,
 			startDate: db.sequelize.fn("now"),
