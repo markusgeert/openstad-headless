@@ -1,20 +1,21 @@
-import { roles, type Role } from './roles';
+import { type Role, roles } from "./roles";
 
 interface MustHaveRole {
-  role: Role,
+	role: Role;
 }
 
-export default function hasRole(user:MustHaveRole, minRoles: Role | Array<Role>) {
+export default function hasRole(
+	user: MustHaveRole,
+	minRoles: Role | Array<Role>,
+) {
+	minRoles = minRoles || "admin"; // admin can do anything
+	if (!Array.isArray(minRoles)) minRoles = [minRoles];
 
-  minRoles = minRoles || 'admin'; // admin can do anything
-  if (!Array.isArray(minRoles)) minRoles = [minRoles];
+	const userRole = user?.role || "all";
 
-  let userRole = user && user.role || 'all';
+	const valid = minRoles.find((minRole) => {
+		return roles[userRole] && roles[userRole].indexOf(minRole) !== -1;
+	});
 
-  let valid = minRoles.find( minRole => {
-    return roles[userRole] && roles[userRole].indexOf(minRole) != -1
-  });
-
-  return valid;
-  
+	return valid;
 }

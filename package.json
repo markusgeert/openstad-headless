@@ -1,38 +1,35 @@
 {
-  "name": "openstad-headless",
-  "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo run dev",
-    "lint": "turbo run lint",
-    "check": "biome check .",
-    "fix": "biome check . --write",
-    "create-docker-config": "node ./scripts/create-docker-config.js",
-    "setup": "node ./scripts/setup-all.js",
-    "start": "node ./scripts/start-all.js",
-    "init-databases": "node ./scripts/init-databases.js"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/openstad/openstad-headless.git"
-  },
-  "author": "OpenStad",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/openstad/openstad-headless/issues"
-  },
-  "homepage": "https://github.com/openstad/openstad-headless#readme",
-  "workspaces": [
-    "apps/*",
-    "packages/*"
-  ],
-  "packageManager": "npm@11.1.0",
-  "devDependencies": {
-    "@biomejs/biome": "1.9.4",
-    "dotenv": "^16.4.7",
-    "mysql2": "^3.11.3",
-    "turbo": "^2.4.4"
-  }
+	"name": "openstad-headless",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"build": "turbo run build",
+		"dev": "turbo run dev",
+		"lint": "turbo run lint",
+		"check": "biome check .",
+		"fix": "biome check . --write",
+		"create-docker-config": "node ./scripts/create-docker-config.js",
+		"setup": "node ./scripts/setup-all.js",
+		"start": "node ./scripts/start-all.js",
+		"init-databases": "node ./scripts/init-databases.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/openstad/openstad-headless.git"
+	},
+	"author": "OpenStad",
+	"license": "ISC",
+	"bugs": {
+		"url": "https://github.com/openstad/openstad-headless/issues"
+	},
+	"homepage": "https://github.com/openstad/openstad-headless#readme",
+	"workspaces": ["apps/*", "packages/*"],
+	"packageManager": "npm@11.1.0",
+	"devDependencies": {
+		"@biomejs/biome": "1.9.4",
+		"dotenv": "^16.4.7",
+		"mysql2": "^3.11.3",
+		"turbo": "^2.4.4"
+	}
 }

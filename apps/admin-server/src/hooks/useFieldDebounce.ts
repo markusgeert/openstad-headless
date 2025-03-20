@@ -1,4 +1,4 @@
-import { useDebounce } from 'rooks';
+import { useDebounce } from "rooks";
 
 /*
  * A wrapper hook that centralizes the calling of the debounce hook to one call.
@@ -6,9 +6,9 @@ import { useDebounce } from 'rooks';
  */
 
 export function useFieldDebounce(
-  onFieldChanged: (name: string, val: string | number | boolean) => void
+	onFieldChanged: (name: string, val: string | number | boolean) => void,
 ) {
-  return {
-    onFieldChange: useDebounce((name, val) => onFieldChanged(name, val), 300),
-  };
+	return {
+		onFieldChange: useDebounce((name, val) => onFieldChanged(name, val), 300),
+	};
 }
