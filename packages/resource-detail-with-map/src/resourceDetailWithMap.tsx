@@ -307,7 +307,7 @@ function ResourceDetailWithMap({
 								resourceIdRelativePath={
 									props.resourceIdRelativePath || "openstadResourceId"
 								}
-							></ResourceDetailMap>
+							/>
 							<div className="map-buttons">
 								{ctaButtonElement}
 								{countButtonElement}

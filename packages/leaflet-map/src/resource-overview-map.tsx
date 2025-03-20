@@ -359,7 +359,7 @@ const ResourceOverviewMap = ({
 				categorize={{ categories, categorizeByField }}
 				center={center}
 				markers={currentMarkers}
-			></BaseMap>
+			/>
 			<div className="map-buttons">
 				{ctaButtonElement}
 				{countButtonElement}

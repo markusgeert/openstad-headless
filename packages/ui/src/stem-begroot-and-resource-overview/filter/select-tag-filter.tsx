@@ -60,7 +60,7 @@ const SelectTagFilter = forwardRef<HTMLSelectElement, Props>(
 						onValueChange={(value) => {
 							onUpdateFilter?.(value);
 						}}
-					></Select>
+					/>
 				</div>
 			)
 		);

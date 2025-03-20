@@ -174,8 +174,7 @@ function Activity({
 									: "U heeft geen activiteit op deze website.",
 							))}
 
-					{activityData?.currentSite &&
-						activityData.currentSite.map((item, key) => listItem(item, key))}
+					{activityData?.currentSite?.map((item, key) => listItem(item, key))}
 				</ul>
 			</div>
 
@@ -192,8 +191,7 @@ function Activity({
 									? noActivityTextOther
 									: "U heeft geen activiteit op andere websites.",
 							))}
-					{activityData?.otherSites &&
-						activityData.otherSites.map((item, key) => listItem(item, key))}
+					{activityData?.otherSites?.map((item, key) => listItem(item, key))}
 				</ul>
 			</div>
 		</section>
