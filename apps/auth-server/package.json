@@ -45,7 +45,7 @@
 		"md5": "^2.2.1",
 		"merge": "^2.1.1",
 		"mjml": "^4.15.3",
-		"moment-timezone": "^0.5.23",
+		"moment-timezone": "^0.6.0",
 		"mysql2": "^3.9.7",
 		"node-2fa": "^2.0.2",
 		"node-fetch": "^2.6.7",
